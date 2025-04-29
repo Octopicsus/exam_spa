@@ -5,7 +5,7 @@ type CategoryState = {
 }
 
 const initialState: CategoryState = {
-    category:'Income'
+    category:'Expense'
 }
 
 export const categorySlice = createSlice({

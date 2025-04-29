@@ -6,28 +6,28 @@ import { RootState } from "../../store/store";
 
 
 export const Header = () => {
-const dispatch = useDispatch()
-const category = useSelector((state: RootState) => state.category.category)
+    const dispatch = useDispatch()
+    const category = useSelector((state: RootState) => state.category.category)
 
-  return (
-    <HeaderWrapper>
-         <CategoryButton
-         type="button"
-         active={category === "Income"}
-         onClick={() => dispatch(setCategory("Income"))}
-       >
-         Income
-       </CategoryButton>
+    return (
+        <HeaderWrapper>
+            <CategoryButton
+                type="button"
+                active={category === "Expense"}
+                onClick={() => dispatch(setCategory("Expense"))}
+            >
+                Expenses
+            </CategoryButton>
 
-       <CategoryButton
-         type="button"
-         active={category === "Expense"}
-         onClick={() => dispatch(setCategory("Expense"))}
-       >
-         Expenses
-       </CategoryButton>
-    </HeaderWrapper>
-  )
+            <CategoryButton
+                type="button"
+                active={category === "Income"}
+                onClick={() => dispatch(setCategory("Income"))}
+            >
+                Income
+            </CategoryButton>
+        </HeaderWrapper>
+    )
 }
 
 const HeaderWrapper = styled.header`
