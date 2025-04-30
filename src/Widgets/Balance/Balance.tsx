@@ -5,8 +5,7 @@ type BalanceValue = {
   value: number
 }
 
-
-export const Balance = () => {
+export default function Balance() {
   const [value, setValue] = useState<BalanceValue>({ value: 0 })
 
   const addValue = () => {

@@ -1,20 +1,26 @@
+import styled from "styled-components"
+import { setCategory } from "../../store/features/categorySlice"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../store/store"
+import { useNavigate } from "react-router"
 
-import styled from "styled-components";
-import { setCategory } from "../../store/features/categorySlice";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 
-
-export const Header = () => {
+export default function Header() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const category = useSelector((state: RootState) => state.category.category)
+
+    const handleSwitchCategory = (category: "Expense" | "Income") => {
+        dispatch(setCategory(category))
+        navigate(category === "Expense" ? "/expense" : "/income")
+    }
 
     return (
         <HeaderWrapper>
             <CategoryButton
                 type="button"
                 active={category === "Expense"}
-                onClick={() => dispatch(setCategory("Expense"))}
+                onClick={() => handleSwitchCategory("Expense")}
             >
                 Expenses
             </CategoryButton>
@@ -22,7 +28,7 @@ export const Header = () => {
             <CategoryButton
                 type="button"
                 active={category === "Income"}
-                onClick={() => dispatch(setCategory("Income"))}
+                onClick={() => handleSwitchCategory("Income")}
             >
                 Income
             </CategoryButton>
@@ -35,7 +41,7 @@ const HeaderWrapper = styled.header`
   width: 30%;
   justify-content: space-between;
   margin: 0 auto;
-`;
+`
 
 const CategoryButton = styled.button<{ active: boolean }>`
   padding: 8px 16px;
@@ -45,7 +51,7 @@ const CategoryButton = styled.button<{ active: boolean }>`
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s;
-`;
+`
 
 
 

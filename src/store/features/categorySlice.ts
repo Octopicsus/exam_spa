@@ -5,16 +5,18 @@ type CategoryState = {
 }
 
 const initialState: CategoryState = {
-    category:'Expense'
+    category: 'Expense'
 }
 
 export const categorySlice = createSlice({
     name: 'selectedCategory',
     initialState,
-    reducers:{
-setCategory(state, action: PayloadAction<string>){
-    state.category = action.payload
-}}})
+    reducers: {
+        setCategory(state, action: PayloadAction<string>) {
+            state.category = action.payload
+        }
+    }
+})
 
-export const {setCategory} = categorySlice.actions
+export const { setCategory } = categorySlice.actions
 export default categorySlice.reducer
