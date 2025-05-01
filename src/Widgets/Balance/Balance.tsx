@@ -1,4 +1,4 @@
-import { useState } from "react"
+
 import styled from "styled-components";
 
 type BalanceValue = {
@@ -6,16 +6,13 @@ type BalanceValue = {
 }
 
 export default function Balance() {
-  const [value, setValue] = useState<BalanceValue>({ value: 0 })
+ 
 
-  const addValue = () => {
-    setValue({ value: value.value + 1 })
-  }
-
+ 
   return (
     <>
-      <BalanceValue>{value.value}</BalanceValue>
-      <button onClick={addValue}>Add</button>
+      <BalanceValue>{0}</BalanceValue>
+ 
     </>
   )
 }

@@ -10,7 +10,7 @@ export default function Header() {
     const navigate = useNavigate()
     const category = useSelector((state: RootState) => state.category.category)
 
-    const handleSwitchCategory = (category: "Expense" | "Income") => {
+    const handleSwitchCategory = (category: string) => {
         dispatch(setCategory(category))
         navigate(category === "Expense" ? "/expense" : "/income")
     }
