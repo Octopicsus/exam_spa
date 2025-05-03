@@ -29,10 +29,13 @@ export default function BackButton({ }: Props) {
 }
 
 const ReturnButton = styled.button`
-background-color: #5e5e5e;
+background-color: transparent;
+padding: 10px 15px;
+border: none;
 color: white;
 position: fixed;
 top: 40px;
 left: 40px;
 z-index: 1000;
+cursor: pointer;
 `
