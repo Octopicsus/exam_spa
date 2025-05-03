@@ -5,6 +5,8 @@ import styled from "styled-components"
 import { useState } from "react"
 import { addItem, moneyAdapter } from "../../../store/features/moneyHistorySlice"
 import { getBalance } from "../../../utils/balanceCalc"
+import { useNavigate } from "react-router"
+import getCategoryPath from "../../../utils/categoryPath"
 
 type Props = {}
 
@@ -14,6 +16,8 @@ export default function MoneyInputPage({ }: Props) {
   const selectAll = moneyAdapter.getSelectors(
     (state: RootState) => state.moneyHisory
   ).selectAll
+  const navigate = useNavigate()
+
   const items = useSelector(selectAll)
   const balance = getBalance(items)
 
@@ -27,7 +31,6 @@ export default function MoneyInputPage({ }: Props) {
   const isBlocked = isExpense && numAmount > balance
 
   const handleAdd = () => {
-    const numAmount = Number(amount)
     if (numAmount > 0 && !isBlocked) {
       dispatch(addItem({
         id: Date.now(),
@@ -37,6 +40,8 @@ export default function MoneyInputPage({ }: Props) {
         date: new Date().toISOString()
       }))
       setAmount("")
+
+      navigate(getCategoryPath(category))
     }
   }
 
