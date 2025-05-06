@@ -5,12 +5,12 @@ import MoneyActionItem from "./MoneyActionItem"
 import styled from "styled-components"
 import { setSelectedMoneyItemId } from "../../store/features/selectedMoneyActionSlice"
 import { Link } from "react-router"
-import { LinkRoutes } from "../../routes"
+import { LinkRoutes } from "../../enums/routes"
 
 
 export default function MoneyList() {
   const category = useSelector((state: RootState) => state.category.category)
-  
+
   const selectAll = moneyAdapter.getSelectors(
     (state: RootState) => state.moneyHistory
   ).selectAll

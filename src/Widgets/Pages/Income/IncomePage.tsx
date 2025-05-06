@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { getIncome } from "../../../utils/balanceCalc"
 import SubBalance from "../../Balance/SubBalance"
 import MoneyList from "../../MoneyList/MoneyList"
-import { LinkRoutes } from "../../../routes"
+import { LinkRoutes } from "../../../enums/routes"
 import styled from "styled-components"
 import { setCategory } from "../../../store/features/categorySlice"
+import { CATEGORY } from "../../../enums/categoryTitles"
 
 export default function IncomePage() {
     const selectAll = moneyAdapter.getSelectors(
@@ -21,7 +22,7 @@ export default function IncomePage() {
     const dispatch = useDispatch()
 
     const handleInput = () => {
-        dispatch(setCategory("Income"))
+        dispatch(setCategory(CATEGORY.INCOME))
         navigate(LinkRoutes.MONEY_INPUT)
     }
 

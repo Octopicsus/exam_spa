@@ -6,9 +6,10 @@ import { RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getExpense } from "../../../utils/balanceCalc";
 import MoneyList from "../../MoneyList/MoneyList";
-import { LinkRoutes } from "../../../routes";
+import { LinkRoutes } from "../../../enums/routes";
 import styled from "styled-components";
 import { setCategory } from "../../../store/features/categorySlice";
+import { CATEGORY } from "../../../enums/categoryTitles";
 
 export default function ExpensePage() {
     const selectAll = moneyAdapter.getSelectors(
@@ -21,7 +22,7 @@ export default function ExpensePage() {
     const dispatch = useDispatch()
 
     const handleInput = () => {
-        dispatch(setCategory("Expense"))
+        dispatch(setCategory(CATEGORY.EXPENSE))
         navigate(LinkRoutes.MONEY_INPUT)
     }
 

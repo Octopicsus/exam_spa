@@ -7,7 +7,7 @@ import ExpensePage from './Widgets/Pages/Expense/ExpensePage'
 import MoneyInputPage from './Widgets/Pages/Action/MoneyInputPage'
 import MoneyItemPage from './Widgets/Pages/Action/MoneyItemPage'
 import { useEffect } from 'react'
-import { LinkRoutes } from './routes'
+import { LinkRoutes } from './enums/routes'
 
 function App() {
   const navigate = useNavigate()

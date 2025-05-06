@@ -1,3 +1,4 @@
+import { CATEGORY } from "../enums/categoryTitles"
 import { MoneyItem } from "../store/features/moneyHistorySlice"
 
 export function getBalance(items: MoneyItem[]) {
@@ -7,9 +8,9 @@ export function getBalance(items: MoneyItem[]) {
 }
 
 export function getIncome(items: MoneyItem[]) {
-    return items.filter(item => item.type === "Income").reduce((acc, item) => acc + item.amount, 0)
+    return items.filter(item => item.type === CATEGORY.INCOME).reduce((acc, item) => acc + item.amount, 0)
 }
 
 export function getExpense(items: MoneyItem[]) {
-    return items.filter(item => item.type === "Expense").reduce((acc, item) => acc + item.amount, 0)
+    return items.filter(item => item.type === CATEGORY.EXPENSE).reduce((acc, item) => acc + item.amount, 0)
 }

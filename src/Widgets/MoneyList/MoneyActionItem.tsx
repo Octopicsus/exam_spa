@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"
 import styled from "styled-components"
-import { LinkRoutes } from "../../routes"
+import { LinkRoutes } from "../../enums/routes"
 
 type Props = {
   title: string,

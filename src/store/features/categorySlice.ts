@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CATEGORY } from "../../enums/categoryTitles";
 
 type CategoryState = {
     category: string
 }
 
 const initialState: CategoryState = {
-    category: 'Expense'
+    category: CATEGORY.EXPENSE
 }
 
 export const categorySlice = createSlice({
