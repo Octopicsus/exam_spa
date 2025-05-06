@@ -4,15 +4,18 @@ import { RootState } from "../../../store/store"
 import { deleteItem, moneyAdapter } from "../../../store/features/moneyHistorySlice"
 import { useNavigate } from "react-router"
 import getCategoryPath from "../../../utils/categoryPath"
-
+import EditButton from "../../Buttons/EditButton"
+import { LINK_ROUTES } from "../../../enums/routes"
 
 export default function MoneyItemPage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const id = useSelector((state: RootState) => state.selectedMoneyItem.id)
+
   const selectedById = moneyAdapter.getSelectors(
     (state: RootState) => state.moneyHistory
   ).selectById
+
   const item = useSelector((state: RootState) => (id !== null ? selectedById(state, id) : null))
 
   const handleDelete = () => {
@@ -20,6 +23,10 @@ export default function MoneyItemPage() {
       dispatch(deleteItem(id))
       navigate(getCategoryPath(item?.type))
     }
+  }
+
+  const handleMoveToEditPage = () => {
+    navigate(LINK_ROUTES.MONEY_INPUT, { state: { item } })
   }
 
   return (
@@ -44,6 +51,7 @@ export default function MoneyItemPage() {
       </div>
       <button onClick={handleDelete}>Delete</button>
       <BackButton />
+      <EditButton onClick={handleMoveToEditPage} />
     </>
   )
 }

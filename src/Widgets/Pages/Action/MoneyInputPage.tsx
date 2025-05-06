@@ -5,11 +5,21 @@ import styled from "styled-components"
 import { useState } from "react"
 import { addItem, moneyAdapter } from "../../../store/features/moneyHistorySlice"
 import { getBalance } from "../../../utils/balanceCalc"
-import { useNavigate } from "react-router"
+import { useLocation, useNavigate } from "react-router"
 import getCategoryPath from "../../../utils/categoryPath"
 
 
 export default function MoneyInputPage() {
+  const location = useLocation()
+  const editItem = location.state?.item
+
+  const [amount, setAmount] = useState(editItem ? String(editItem.amount) : "")
+  const [actionTitle, setActionTitle] = useState(editItem ? editItem.title : "")
+  const [date, setDate] = useState(editItem ? (() => {
+    const [day, month, year] = editItem.date.split('.')
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+  })() : "")
+
   const dispatch = useDispatch()
   const category = useSelector((state: RootState) => state.category.category)
   const selectAll = moneyAdapter.getSelectors(
@@ -22,25 +32,27 @@ export default function MoneyInputPage() {
 
   const pageTitle = category
 
-  const [amount, setAmount] = useState("")
-  const [actionTitle, setActionTitle] = useState("")
-
   const numAmount = Number(amount)
   const isExpense = category === "Expense"
   const isBlocked = isExpense && numAmount > balance
 
   const handleAdd = () => {
     if (numAmount > 0 && !isBlocked) {
-      const now = new Date()
+      let now = new Date()
+      let itemDate = date ? new Date(date) : now
+
       dispatch(addItem({
         id: Date.now(),
         type: category,
         title: actionTitle,
         amount: numAmount,
-        date: now.toLocaleDateString('ru-RU'),
-        time: now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+        date: itemDate.toLocaleDateString('en-US'),
+        time: itemDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
       }))
+
       setAmount("")
+      setActionTitle("")
+      setDate("")
 
       navigate(getCategoryPath(category))
     }
@@ -55,10 +67,9 @@ export default function MoneyInputPage() {
   return (
     <MoneyPageInput>
       <InputWrapper >
-        <form onKeyDown={handleKeyDown}>
-          <h2>{pageTitle}</h2>
-
-          <input
+        <CategoryTypeTitle>{pageTitle}</CategoryTypeTitle>
+        <Form onKeyDown={handleKeyDown}>
+          <InputItem
             type="text"
             name="moneyTitleInput"
             value={actionTitle}
@@ -66,7 +77,7 @@ export default function MoneyInputPage() {
             placeholder="Title"
           />
 
-          <input
+          <InputItem
             type="number"
             name="moneyAmountInput"
             value={amount}
@@ -74,15 +85,27 @@ export default function MoneyInputPage() {
             placeholder="Amount"
           />
 
-          <SubmitButton onClick={handleAdd} >Add</SubmitButton>
-        </form>
+          <InputItem
+            type="date"
+            name="moneyDateInput"
+            lang="en"
+            value={date}
+            onChange={event => setDate(event.target.value)}
+            $empty={!date}
+          />
+
+          <SubmitButton onClick={handleAdd}>Add</SubmitButton>
+        </Form>
       </InputWrapper>
-
       <BackButton />
-
     </MoneyPageInput >
   )
 }
+
+const CategoryTypeTitle = styled.h2`
+text-align: left;
+margin-bottom: 30px;
+`
 
 const MoneyPageInput = styled.div`
 height : 100vh;
@@ -97,6 +120,34 @@ margin: 0 auto;
 width: 300px;
 display: flex;
 flex-direction: column;
+`
+
+const Form = styled.form`
+display: flex;
+flex-direction: column;
+`
+
+const InputItem = styled.input<{ $empty?: boolean }>`
+  margin-bottom: 10px;
+  width: 90%;
+  height: 28px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  border: none;
+  background-color: #363636;
+  color: ${({ $empty }) => ($empty ? "#808080" : "#ffffff")};
+
+  &::placeholder {
+    color: #808080;
+    opacity: 1;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(50%) saturate(0%);
+    margin-right: 10px;
+    cursor: pointer;
+  }
 `
 
 const SubmitButton = styled.button`

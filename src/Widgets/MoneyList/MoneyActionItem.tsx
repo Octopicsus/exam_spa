@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"
 import styled from "styled-components"
-import { LinkRoutes } from "../../enums/routes"
+import { LINK_ROUTES } from "../../enums/routes"
 
 type Props = {
   title: string,
@@ -11,7 +11,7 @@ export default function MoneyActionItem({ title, amount }: Props) {
   const navigate = useNavigate()
 
   function handleOpenItem() {
-    navigate(LinkRoutes.MONEY_ITEM)
+    navigate(LINK_ROUTES.MONEY_ITEM)
   }
 
   return (

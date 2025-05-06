@@ -5,7 +5,7 @@ import MoneyActionItem from "./MoneyActionItem"
 import styled from "styled-components"
 import { setSelectedMoneyItemId } from "../../store/features/selectedMoneyActionSlice"
 import { Link } from "react-router"
-import { LinkRoutes } from "../../enums/routes"
+import { LINK_ROUTES } from "../../enums/routes"
 
 
 export default function MoneyList() {
@@ -32,7 +32,7 @@ export default function MoneyList() {
           return (
             <List key={moneyAction.id}>
               <Link
-                to={LinkRoutes.MONEY_ITEM}
+                to={LINK_ROUTES.MONEY_ITEM}
                 onClick={() => dispatch(setSelectedMoneyItemId(moneyAction.id))}
               >
                 <MoneyActionItem

@@ -1,12 +1,12 @@
-import { LinkRoutes } from "../enums/routes"
+import { LINK_ROUTES } from "../enums/routes"
 import { CATEGORY } from "../enums/categoryTitles"
 
 export default function getCategoryPath(category: string) {
     switch (category) {
         case CATEGORY.EXPENSE:
-            return LinkRoutes.EXPENSE
+            return LINK_ROUTES.EXPENSE
         case CATEGORY.INCOME:
-            return LinkRoutes.INCOME
+            return LINK_ROUTES.INCOME
         default:
             return "/"
     }

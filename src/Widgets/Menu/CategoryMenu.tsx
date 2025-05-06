@@ -3,7 +3,7 @@ import { setCategory } from "../../store/features/categorySlice"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { useNavigate } from "react-router"
-import { LinkRoutes } from "../../enums/routes"
+import { LINK_ROUTES } from "../../enums/routes"
 
 export default function Header() {
     const dispatch = useDispatch()
@@ -12,7 +12,7 @@ export default function Header() {
 
     const handleSwitchCategory = (category: string) => {
         dispatch(setCategory(category))
-        navigate(category === "Expense" ? LinkRoutes.EXPENSE : LinkRoutes.INCOME)
+        navigate(category === "Expense" ? LINK_ROUTES.EXPENSE : LINK_ROUTES.INCOME)
     }
 
     return (
