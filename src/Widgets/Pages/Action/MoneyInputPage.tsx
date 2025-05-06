@@ -8,13 +8,12 @@ import { getBalance } from "../../../utils/balanceCalc"
 import { useNavigate } from "react-router"
 import getCategoryPath from "../../../utils/categoryPath"
 
-type Props = {}
 
-export default function MoneyInputPage({ }: Props) {
+export default function MoneyInputPage() {
   const dispatch = useDispatch()
   const category = useSelector((state: RootState) => state.category.category)
   const selectAll = moneyAdapter.getSelectors(
-    (state: RootState) => state.moneyHisory
+    (state: RootState) => state.moneyHistory
   ).selectAll
   const navigate = useNavigate()
 
@@ -32,12 +31,14 @@ export default function MoneyInputPage({ }: Props) {
 
   const handleAdd = () => {
     if (numAmount > 0 && !isBlocked) {
+      const now = new Date()
       dispatch(addItem({
         id: Date.now(),
         type: category,
         title: actionTitle,
         amount: numAmount,
-        date: new Date().toISOString()
+        date: now.toLocaleDateString('ru-RU'),
+        time: now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
       }))
       setAmount("")
 
@@ -45,32 +46,41 @@ export default function MoneyInputPage({ }: Props) {
     }
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === "Enter") {
+      handleAdd()
+    }
+  }
+
   return (
     <MoneyPageInput>
-      <InputWrapper>
-        <h2>{pageTitle}</h2>
+      <InputWrapper >
+        <form onKeyDown={handleKeyDown}>
+          <h2>{pageTitle}</h2>
 
-        <input
-          type="text"
-          name="moneyTitleInput"
-          value={actionTitle}
-          onChange={event => setActionTitle(event.target.value)}
-          placeholder="Title"
-        />
+          <input
+            type="text"
+            name="moneyTitleInput"
+            value={actionTitle}
+            onChange={event => setActionTitle(event.target.value)}
+            placeholder="Title"
+          />
 
-        <input
-          type="number"
-          name="moneyAmountInput"
-          value={amount}
-          onChange={event => setAmount(event.target.value)}
-          placeholder="Amount"
-        />
+          <input
+            type="number"
+            name="moneyAmountInput"
+            value={amount}
+            onChange={event => setAmount(event.target.value)}
+            placeholder="Amount"
+          />
 
-        <SubmitButton onClick={handleAdd}>Add</SubmitButton>
+          <SubmitButton onClick={handleAdd} >Add</SubmitButton>
+        </form>
       </InputWrapper>
 
       <BackButton />
-    </MoneyPageInput>
+
+    </MoneyPageInput >
   )
 }
 

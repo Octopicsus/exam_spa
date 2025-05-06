@@ -6,7 +6,7 @@ import { getBalance } from "../../utils/balanceCalc"
 
 export default function Balance() {
   const selectAll = moneyAdapter.getSelectors(
-    (state: RootState) => state.moneyHisory
+    (state: RootState) => state.moneyHistory
   ).selectAll
 
   const items = useSelector(selectAll)

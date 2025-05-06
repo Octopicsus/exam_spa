@@ -1,13 +1,10 @@
-
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { RootState } from '../../store/store'
 import styled from 'styled-components'
 import getCategoryPath from '../../utils/categoryPath'
 
-type Props = {}
-
-export default function BackButton({ }: Props) {
+export default function BackButton() {
     const navigate = useNavigate()
     const category = useSelector((state: RootState) => state.category.category)
 

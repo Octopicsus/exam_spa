@@ -3,7 +3,7 @@ import { setCategory } from "../../store/features/categorySlice"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { useNavigate } from "react-router"
-
+import { LinkRoutes } from "../../routes"
 
 export default function Header() {
     const dispatch = useDispatch()
@@ -12,14 +12,14 @@ export default function Header() {
 
     const handleSwitchCategory = (category: string) => {
         dispatch(setCategory(category))
-        navigate(category === "Expense" ? "/expense" : "/income")
+        navigate(category === "Expense" ? LinkRoutes.EXPENSE : LinkRoutes.INCOME)
     }
 
     return (
         <HeaderWrapper>
             <CategoryButton
                 type="button"
-                active={category === "Expense"}
+                $active={category === "Expense"}
                 onClick={() => handleSwitchCategory("Expense")}
             >
                 Expenses
@@ -27,7 +27,7 @@ export default function Header() {
 
             <CategoryButton
                 type="button"
-                active={category === "Income"}
+                $active={category === "Income"}
                 onClick={() => handleSwitchCategory("Income")}
             >
                 Income
@@ -43,11 +43,11 @@ const HeaderWrapper = styled.header`
   margin: 0 auto;
 `
 
-const CategoryButton = styled.button<{ active: boolean }>`
+const CategoryButton = styled.button<{ $active: boolean }>`
   padding: 8px 16px;
   border: none;
-  background: ${({ active }) => (active ? "#ffffff" : "#787878")};
-  color: ${({ active }) => (active ? "#2f2f2f" : "#ffffff")};
+  background: ${({ $active }) => ($active ? "#ffffff" : "#787878")};
+  color: ${({ $active }) => ($active ? "#2f2f2f" : "#ffffff")};
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s;

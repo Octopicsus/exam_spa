@@ -1,10 +1,12 @@
+import { LinkRoutes } from "../routes"
+
 export default function getCategoryPath(category: string) {
     switch (category) {
         case "Expense":
-            return "/expense";
+            return LinkRoutes.EXPENSE
         case "Income":
-            return "/income";
+            return LinkRoutes.INCOME
         default:
-            return "/";
+            return "/"
     }
 }

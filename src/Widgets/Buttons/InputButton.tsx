@@ -1,11 +1,17 @@
 import styled from "styled-components"
 
+type  Events = {
+    onClick: () => void,
+}
 
-type Event = { onClick?: () => void }
-
-export default function InputButton({ onClick }: Event) {
+export default function InputButton({ onClick}:  Events) {
     return (
-        <Button onClick={onClick}>+</Button>
+        <Button
+            onClick={onClick}
+            type="button"
+        >
+            +
+        </Button>
     )
 }
 
@@ -19,4 +25,7 @@ border: none;
 font-size: 28px;
 font-weight: bolder;
 cursor: pointer;
+position: absolute;
+bottom: 20px;
+right: 20px;
 `
