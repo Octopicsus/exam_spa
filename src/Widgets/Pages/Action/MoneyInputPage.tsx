@@ -7,6 +7,7 @@ import { addItem, moneyAdapter } from "../../../store/features/moneyHistorySlice
 import { getBalance } from "../../../utils/balanceCalc"
 import { useLocation, useNavigate } from "react-router"
 import getCategoryPath from "../../../utils/categoryPath"
+import { CATEGORY } from "../../../enums/categoryTitles"
 
 
 export default function MoneyInputPage() {
@@ -14,7 +15,9 @@ export default function MoneyInputPage() {
   const editItem = location.state?.item
 
   const [amount, setAmount] = useState(editItem ? String(editItem.amount) : "")
+
   const [actionTitle, setActionTitle] = useState(editItem ? editItem.title : "")
+
   const [date, setDate] = useState(
     editItem && editItem.date ? editItem.date : new Date().toISOString().slice(0, 10)
   )
@@ -32,7 +35,7 @@ export default function MoneyInputPage() {
   const pageTitle = category
 
   const numAmount = Number(amount)
-  const isExpense = category === "Expense"
+  const isExpense = category === CATEGORY.EXPENSE
   const isBlocked = isExpense && numAmount > balance
 
   const handleAdd = () => {
@@ -85,14 +88,16 @@ export default function MoneyInputPage() {
             placeholder="Amount"
           />
 
-          <InputItem
-            type="date"
-            name="moneyDateInput"
-            lang="en"
-            value={date}
-            onChange={event => setDate(event.target.value)}
-            $empty={!date}
-          />
+          {editItem && (
+            <InputItem
+              type="date"
+              name="moneyDateInput"
+              lang="en"
+              value={date}
+              onChange={event => setDate(event.target.value)}
+              $empty={!date}
+            />
+          )}
 
           <SubmitButton onClick={handleAdd}>Add</SubmitButton>
         </Form>

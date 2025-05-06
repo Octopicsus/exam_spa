@@ -18,6 +18,15 @@ export default function MoneyItemPage() {
 
   const item = useSelector((state: RootState) => (id !== null ? selectedById(state, id) : null))
 
+  function formatDate(dateString?: string) {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
   const handleDelete = () => {
     if (id !== null && item) {
       dispatch(deleteItem(id))
@@ -43,10 +52,7 @@ export default function MoneyItemPage() {
           <p>Comments</p>
         </div>
         <div>
-          <p>Date: {item?.date}</p>
-        </div>
-        <div>
-          <p>Time: {item?.time}</p>
+          <p>Date: {formatDate(item?.date)}</p>
         </div>
       </div>
       <button onClick={handleDelete}>Delete</button>
