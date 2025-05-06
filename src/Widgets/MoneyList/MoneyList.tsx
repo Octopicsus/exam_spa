@@ -18,8 +18,8 @@ export default function MoneyList() {
   const moneyAction = useSelector(selectAll)
 
   const selectedCategory = moneyAction.filter((moneyAction: MoneyItem) => moneyAction.type === category).sort((a, b) => {
-    const dateA = new Date(`${a.date} ${a.time}`)
-    const dateB = new Date(`${b.date} ${b.time}`)
+    const dateA = new Date(`${a.date}T${a.time}`)
+    const dateB = new Date(`${b.date}T${b.time}`)
     return dateB.getTime() - dateA.getTime()
   })
 

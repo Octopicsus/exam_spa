@@ -21,7 +21,7 @@ export default function MoneyItemPage() {
   const handleDelete = () => {
     if (id !== null && item) {
       dispatch(deleteItem(id))
-      navigate(getCategoryPath(item?.type))
+      navigate(getCategoryPath(item.type))
     }
   }
 

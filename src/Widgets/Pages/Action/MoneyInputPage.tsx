@@ -15,10 +15,9 @@ export default function MoneyInputPage() {
 
   const [amount, setAmount] = useState(editItem ? String(editItem.amount) : "")
   const [actionTitle, setActionTitle] = useState(editItem ? editItem.title : "")
-  const [date, setDate] = useState(editItem ? (() => {
-    const [day, month, year] = editItem.date.split('.')
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-  })() : "")
+  const [date, setDate] = useState(
+    editItem && editItem.date ? editItem.date : new Date().toISOString().slice(0, 10)
+  )
 
   const dispatch = useDispatch()
   const category = useSelector((state: RootState) => state.category.category)
@@ -38,21 +37,22 @@ export default function MoneyInputPage() {
 
   const handleAdd = () => {
     if (numAmount > 0 && !isBlocked) {
-      let now = new Date()
-      let itemDate = date ? new Date(date) : now
+      const now = new Date()
+      const formattedDate = date
+      const formattedTime = now.toTimeString().slice(0, 8)
 
       dispatch(addItem({
         id: Date.now(),
         type: category,
         title: actionTitle,
         amount: numAmount,
-        date: itemDate.toLocaleDateString('en-US'),
-        time: itemDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+        date: formattedDate,
+        time: formattedTime
       }))
 
       setAmount("")
       setActionTitle("")
-      setDate("")
+      setDate(new Date().toISOString().slice(0, 10))
 
       navigate(getCategoryPath(category))
     }
