@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import colors from "../../colors/colorsPalette"
 
 type CatValues = {
     value: number
@@ -11,7 +12,7 @@ export default function SubBalance({ value }: CatValues) {
 }
 
 const ShowValue = styled.h4`
-color: #ffb700;
+color: ${colors.brandColor};
 width: 300px;
 `
 

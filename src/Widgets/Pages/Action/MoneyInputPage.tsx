@@ -3,7 +3,7 @@ import BackButton from "../../Buttons/BackButton"
 import { RootState } from "../../../store/store"
 import styled from "styled-components"
 import { useState } from "react"
-import { addItem, moneyAdapter } from "../../../store/features/moneyHistorySlice"
+import { addItem, moneyAdapter, updateItem } from "../../../store/features/moneyHistorySlice"
 import { getBalance } from "../../../utils/balanceCalc"
 import { useLocation, useNavigate } from "react-router"
 import getCategoryPath from "../../../utils/categoryPath"
@@ -14,6 +14,7 @@ import colors from "../../../colors/colorsPalette"
 export default function MoneyInputPage() {
   const location = useLocation()
   const editItem = location.state?.item
+  console.log(editItem)
 
   const [amount, setAmount] = useState(editItem ? String(editItem.amount) : "")
 
@@ -45,14 +46,25 @@ export default function MoneyInputPage() {
       const formattedDate = date
       const formattedTime = now.toTimeString().slice(0, 8)
 
-      dispatch(addItem({
-        id: Date.now(),
-        type: category,
-        title: actionTitle,
-        amount: numAmount,
-        date: formattedDate,
-        time: formattedTime
-      }))
+      if (editItem) {
+        dispatch(updateItem({
+          id: editItem.id,
+          type: category,
+          title: actionTitle,
+          amount: numAmount,
+          date: formattedDate,
+          time: formattedTime
+        }))
+      } else {
+        dispatch(addItem({
+          id: Date.now(),
+          type: category,
+          title: actionTitle,
+          amount: numAmount,
+          date: formattedDate,
+          time: formattedTime
+        }))
+      }
 
       setAmount("")
       setActionTitle("")
@@ -99,13 +111,17 @@ export default function MoneyInputPage() {
           />
           )}
 
-          <SubmitButton onClick={handleAdd}>Add</SubmitButton>
+          <SubmitButton onClick={handleAdd}>
+            {editItem ? "Edit" : "Add"}
+          </SubmitButton>
         </Form>
       </InputWrapper>
       <BackButton />
     </MoneyPageInput >
   )
 }
+
+
 
 const CategoryTypeTitle = styled.h2`
 text-align: left;
@@ -157,7 +173,7 @@ const InputItem = styled.input<{ $empty?: boolean }>`
 
 const SubmitButton = styled.button`
 background-color: transparent;
-color:  #ffb700;
+color: ${colors.brandColor};
 border: solid 1px  ${colors.brandColor};
 padding: 8px 20px;
 font-weight: bolder;

@@ -18,10 +18,10 @@ const moneyHisorySlice = createSlice({
 
     reducers: {
         addItem: moneyAdapter.addOne,
-        editItem: moneyAdapter.upsertOne,
+        updateItem: moneyAdapter.upsertOne,
         deleteItem: moneyAdapter.removeOne,
     }
 })
 
-export const { addItem, editItem, deleteItem } = moneyHisorySlice.actions
+export const { addItem, updateItem, deleteItem } = moneyHisorySlice.actions
 export default moneyHisorySlice.reducer
