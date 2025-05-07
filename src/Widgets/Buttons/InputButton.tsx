@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import colors from "../../colors/colorsPalette"
 
 type  Events = {
     onClick: () => void,
@@ -19,7 +20,7 @@ const Button = styled.button`
 width: 40px;
 height: 40px;
 border-radius: 50%;
-background-color: #ffb700;
+background-color: ${colors.brandColor};
 color: black;
 border: none;
 font-size: 28px;

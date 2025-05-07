@@ -8,6 +8,7 @@ import { getBalance } from "../../../utils/balanceCalc"
 import { useLocation, useNavigate } from "react-router"
 import getCategoryPath from "../../../utils/categoryPath"
 import { CATEGORY } from "../../../enums/categoryTitles"
+import colors from "../../../colors/colorsPalette"
 
 
 export default function MoneyInputPage() {
@@ -88,15 +89,14 @@ export default function MoneyInputPage() {
             placeholder="Amount"
           />
 
-          {editItem && (
-            <InputItem
-              type="date"
-              name="moneyDateInput"
-              lang="en"
-              value={date}
-              onChange={event => setDate(event.target.value)}
-              $empty={!date}
-            />
+          {editItem && (<InputItem
+            type="date"
+            name="moneyDateInput"
+            lang="en"
+            value={date}
+            onChange={event => setDate(event.target.value)}
+            $empty={!date}
+          />
           )}
 
           <SubmitButton onClick={handleAdd}>Add</SubmitButton>
@@ -158,7 +158,7 @@ const InputItem = styled.input<{ $empty?: boolean }>`
 const SubmitButton = styled.button`
 background-color: transparent;
 color:  #ffb700;
-border: solid 1px  #ffb700;
+border: solid 1px  ${colors.brandColor};
 padding: 8px 20px;
 font-weight: bolder;
 border-radius: 20px;
