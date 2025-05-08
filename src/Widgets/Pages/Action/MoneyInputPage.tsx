@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router"
 import getCategoryPath from "../../../utils/categoryPath"
 import { CATEGORY } from "../../../enums/categoryTitles"
 import colors from "../../../colors/colorsPalette"
+import CategoryMoneyList from "../../CategoryMoneyList/CategoryMoneyList"
 
 
 export default function MoneyInputPage() {
@@ -19,6 +20,8 @@ export default function MoneyInputPage() {
   const [amount, setAmount] = useState(editItem ? String(editItem.amount) : "")
 
   const [actionTitle, setActionTitle] = useState(editItem ? editItem.title : "")
+
+  const [img, setImg] = useState(editItem ? editItem.img || "" : "")
 
   const [date, setDate] = useState(
     editItem && editItem.date ? editItem.date : new Date().toISOString().slice(0, 10)
@@ -40,21 +43,32 @@ export default function MoneyInputPage() {
   const isExpense = category === CATEGORY.EXPENSE
   const isBlocked = isExpense && numAmount > balance
 
+  const handlePresetSelect = (title: string, img: string) => {
+    setActionTitle(title)
+    setImg(img)
+  }
+
   const handleAdd = () => {
     if (numAmount > 0 && !isBlocked) {
       const now = new Date()
       const formattedDate = date
-      const formattedTime = now.toTimeString().slice(0, 8)
+      let formattedTime = now.toTimeString().slice(0, 8)
 
       if (editItem) {
+        if (editItem.date === formattedDate) {
+          formattedTime = editItem.time
+        }
+
         dispatch(updateItem({
           id: editItem.id,
           type: category,
           title: actionTitle,
           amount: numAmount,
           date: formattedDate,
-          time: formattedTime
+          time: formattedTime,
+          img: img
         }))
+
       } else {
         dispatch(addItem({
           id: Date.now(),
@@ -62,7 +76,8 @@ export default function MoneyInputPage() {
           title: actionTitle,
           amount: numAmount,
           date: formattedDate,
-          time: formattedTime
+          time: formattedTime,
+          img: img
         }))
       }
 
@@ -100,6 +115,8 @@ export default function MoneyInputPage() {
             onChange={event => setAmount(event.target.value)}
             placeholder="Amount"
           />
+
+          <CategoryMoneyList onClick={handlePresetSelect}/>
 
           {editItem && (<InputItem
             type="date"

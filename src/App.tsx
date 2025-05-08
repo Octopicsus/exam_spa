@@ -1,5 +1,5 @@
 import { Route, Routes, useNavigate } from 'react-router'
-import './App.css'
+import styled from 'styled-components'
 import Balance from './Widgets/Balance/Balance'
 import CategoryMenu from './Widgets/Menu/CategoryMenu'
 import IncomePage from './Widgets/Pages/Income/IncomePage'
@@ -8,6 +8,12 @@ import MoneyInputPage from './Widgets/Pages/Action/MoneyInputPage'
 import MoneyItemPage from './Widgets/Pages/Action/MoneyItemPage'
 import { useEffect } from 'react'
 import { LINK_ROUTES } from './enums/routes'
+
+const AppContainer = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+`
 
 function App() {
   const navigate = useNavigate()
@@ -23,7 +29,7 @@ function App() {
     location.pathname === LINK_ROUTES.MONEY_ITEM
 
   return (
-    <>
+    <AppContainer>
       {!isActionPage && (
         <>
           <Balance />
@@ -36,7 +42,7 @@ function App() {
         <Route path={LINK_ROUTES.MONEY_INPUT} element={<MoneyInputPage />} />
         <Route path={LINK_ROUTES.MONEY_ITEM} element={<MoneyItemPage />} />
       </Routes>
-    </>
+    </AppContainer>
   )
 }
 

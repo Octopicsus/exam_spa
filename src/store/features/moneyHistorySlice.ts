@@ -6,7 +6,8 @@ export type MoneyItem = {
     title: string
     amount: number
     date: string
-    time: string 
+    time: string
+    img?: string
 }
 
 export const moneyAdapter = createEntityAdapter<MoneyItem>()

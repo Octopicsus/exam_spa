@@ -1,0 +1,22 @@
+{
+    "income": [
+      { "title": "Salary", "img": "/img/taxes_category.svg" },
+      { "title": "Side Job", "img": "/img/taxes_category.svg" },
+      { "title": "Investments", "img": "/img/taxes_category.svg" },
+      { "title": "Other", "img": "/img/taxes_category.svg" }
+    ],
+    "expense": [
+      { "title": "Rent", "img": "/img/taxes_category.svg" },
+      { "title": "Utilities", "img": "/img/taxes_category.svg" },
+      { "title": "Groceries", "img": "/img/taxes_category.svg" },
+      { "title": "Shopping", "img": "/img/taxes_category.svg" },
+      { "title": "Cafe", "img": "/img/taxes_category.svg" },
+      { "title": "Entertainment", "img": "/img/taxes_category.svg" },
+      { "title": "Health", "img": "/img/taxes_category.svg" },
+      { "title": "Insurance", "img": "/img/taxes_category.svg" },
+      { "title": "Transport", "img": "/img/taxes_category.svg" },
+      { "title": "Education", "img": "/img/taxes_category.svg" },
+      { "title": "Taxes", "img": "/img/taxes_category.svg" },
+      { "title": "Other", "img": "/img/taxes_category.svg" }
+    ]
+  }

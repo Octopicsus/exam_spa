@@ -4,19 +4,26 @@ import { LINK_ROUTES } from "../../enums/routes"
 
 type Props = {
   title: string,
-  amount: number
+  amount: number,
+  date: string,
+  time: string
 }
 
-export default function MoneyActionItem({ title, amount }: Props) {
+export default function MoneyActionItem({ title, amount, time }: Props) {
   const navigate = useNavigate()
 
   function handleOpenItem() {
     navigate(LINK_ROUTES.MONEY_ITEM)
   }
 
+  const formattedTime = time.slice(0, 5)
+
   return (
     <ActionItemButton onClick={handleOpenItem}>
-      <Title>{title}</Title>
+      <TitleWrapper>
+        <Title>{title}</Title>
+        <Time>{formattedTime}</Time>
+      </TitleWrapper>
       <Amount>{amount}</Amount>
     </ActionItemButton>
   )
@@ -25,28 +32,41 @@ export default function MoneyActionItem({ title, amount }: Props) {
 const ActionItemButton = styled.button`
 display: flex;
 justify-content: space-between;
-background-color: #8080803a;
+background-color: #4a4a4a39;
 width: 300px;
 margin-bottom: 5px;
 padding-top: 10px;
 padding-bottom: 10px;
-padding-left: 20px;
+padding-left: 16px;
 cursor: pointer;
 box-sizing: border-box;
 border: none;
 
 &:hover{
-  background-color: #b1b1b139;
+  background-color: #8c8c8c39;
 }
 `
 
 const Title = styled.h4`
 width: 150px;
 text-align: left;
-opacity: 50%;
+color: #ebebeb;
 `
 
 const Amount = styled.h4`
 width: 60px;
 text-align: center;
+font-size: 18px;
+`
+
+const TitleWrapper = styled.div`
+display: flex;
+flex-direction: column;
+`
+
+const Time = styled.h6`
+color: #7f7f7f;
+text-align: left;
+margin-top: 4px;
+font-size: 12px;
 `
