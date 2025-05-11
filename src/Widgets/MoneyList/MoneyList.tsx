@@ -8,7 +8,6 @@ import { Link } from "react-router"
 import { LINK_ROUTES } from "../../enums/routes"
 import DateListItem from "./DateListItem"
 
-
 export default function MoneyList() {
   const category = useSelector((state: RootState) => state.category.category)
 

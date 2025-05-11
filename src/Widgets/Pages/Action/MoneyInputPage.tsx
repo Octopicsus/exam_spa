@@ -10,6 +10,7 @@ import getCategoryPath from "../../../utils/categoryPath"
 import { CATEGORY } from "../../../enums/categoryTitles"
 import colors from "../../../colors/colorsPalette"
 import CategoryMoneyList from "../../CategoryMoneyList/CategoryMoneyList"
+import CategoryCustomList from "../../CategoryMoneyList/CategoryCustomList"
 
 
 export default function MoneyInputPage() {
@@ -115,6 +116,8 @@ export default function MoneyInputPage() {
             onChange={event => setAmount(event.target.value)}
             placeholder="Amount"
           />
+
+          <CategoryCustomList/>
 
           <CategoryMoneyList onClick={handlePresetSelect}/>
 

@@ -4,6 +4,7 @@ import styled from "styled-components"
 import CategoryPresetItem from "./CategoryPresetItem"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store/store"
+import SubTitle from "./SubTitle"
 
 export type CategoryType = {
     title: string
@@ -35,7 +36,7 @@ export default function CategoryMoneyList({ onClick }: Props) {
 
     return (
         <>
-            <Title>Presets</Title>
+            <SubTitle title="Presets" />
             <ListWrapper>
                 <ul>
                     {categories.map(cat => (
@@ -71,9 +72,3 @@ const ListWrapper = styled.div`
   }
 `
 
-const Title = styled.h3`
-    margin-top: 16px;
-    font-size: 14px;
-    text-align: left;
-    font-weight: 700;
-`
