@@ -18,32 +18,22 @@ import { LINK_ROUTES } from "../../../enums/routes"
 export default function MoneyInputPage() {
   const location = useLocation()
   const editItem = location.state?.item
-  console.log(editItem)
-
   const isShowTitle = true
-
   const [amount, setAmount] = useState(editItem ? String(editItem.amount) : "")
-
   const [actionTitle, setActionTitle] = useState(editItem ? editItem.title : "")
-
   const [img, setImg] = useState(editItem ? editItem.img || "" : "")
-
   const [date, setDate] = useState(
     editItem && editItem.date ? editItem.date : new Date().toISOString().slice(0, 10)
   )
-
   const dispatch = useDispatch()
   const category = useSelector((state: RootState) => state.category.category)
   const selectAll = moneyAdapter.getSelectors(
     (state: RootState) => state.moneyHistory
   ).selectAll
   const navigate = useNavigate()
-
   const items = useSelector(selectAll)
   const balance = getBalance(items)
-
   const pageTitle = category
-
   const numAmount = Number(amount)
   const isExpense = category === CATEGORY.EXPENSE
   const isBlocked = isExpense && numAmount > balance
@@ -133,7 +123,7 @@ export default function MoneyInputPage() {
             />
           </CustomItemWrapper>
 
-          <CategoryCustomList onPresetSelect={handlePresetSelect} />
+          <CategoryCustomList type={category} onPresetSelect={handlePresetSelect} />
 
           <CategoryMoneyList onPresetSelect={handlePresetSelect} />
 
@@ -147,7 +137,16 @@ export default function MoneyInputPage() {
           />
           )}
 
-          <SubmitButton onClick={handleAdd}>
+          <SubmitButton
+            onClick={handleAdd}
+            disabled={
+              !actionTitle.trim() ||
+              !amount.trim() ||
+              isBlocked ||
+              numAmount <= 0
+            }
+          >
+
             {editItem ? "Edit" : "Add"}
           </SubmitButton>
         </Form>

@@ -1,4 +1,4 @@
-import { useState } from "react"
+
 import styled from "styled-components"
 
 
@@ -40,7 +40,7 @@ justify-content: center;
 align-items: center;
 width: 64px;
 height: 64px;
-background-color: rebeccapurple;
+background-color: #7f7f7f;
 border-radius: 50%;
 
 `

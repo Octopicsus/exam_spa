@@ -1,38 +1,67 @@
 import styled from "styled-components"
 import CategoryPresetItem from "./CategoryPresetItem"
-import SubTitle from "./SubTitle"
-import { useState } from "react"
-
-
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../store/store"
+import { useLocation } from "react-router"
+import { LINK_ROUTES } from "../../enums/routes"
+import { removeCustomCategory } from "../../store/features/customCategorySlice"
 
 type Props = {
     onPresetSelect?: (title: string, img: string) => void
+    type: string
 }
 
-export default function CategoryCustomList({ onPresetSelect }: Props) {
-    const [customCatList, setCustomCatList] = useState<string[]>([])
+export default function CategoryCustomList({ onPresetSelect, type }: Props) {
+    const customCatList = useSelector((state: RootState) => state.customCategory.list)
+    const dispatch = useDispatch()
+    const location = useLocation()
+
+    const filteredList = customCatList.filter(cat => cat.type === type)
+
+    const isCustomCategoryPage = location.pathname.includes(LINK_ROUTES.CUSTOM_CATEGORY)
+
+    const handleClick = (cat: { title: string; img: string; type: string }) => {
+        if (isCustomCategoryPage) {
+            dispatch(removeCustomCategory(cat))
+        } else if (onPresetSelect) {
+            onPresetSelect(cat.title, cat.img)
+        }
+    }
 
     return (
         <>
-            {<p>no items</p>}
-            <WrapperList>
-                {customCatList.map((cat, id) => (
-                    <CategoryPresetItem
-                        key={id}
-                        title={cat}
-                        img="/img/taxes_category.svg"
-                        onClick={onPresetSelect}
-                    />
-                ))}
-            </WrapperList>
+            {filteredList.length === 0 && <p>no items</p>}
+            <ListWrapper>
+                <ul>
+                    {filteredList.map((cat, id) => (
+                        <li key={id}>
+                            <CategoryPresetItem
+                                title={cat.title}
+                                img={cat.img}
+                                onClick={() => handleClick(cat)}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            </ListWrapper>
         </>
     )
 }
 
-
-
-const WrapperList = styled.div`
-margin: 20px 0px;
-display: flex;
-justify-content: space-between;
+const ListWrapper = styled.div`
+  margin-top: 20px;
+  ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 12px;
+  }
 `
