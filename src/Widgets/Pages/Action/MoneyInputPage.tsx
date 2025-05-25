@@ -11,12 +11,16 @@ import { CATEGORY } from "../../../enums/categoryTitles"
 import colors from "../../../colors/colorsPalette"
 import CategoryMoneyList from "../../CategoryMoneyList/CategoryMoneyList"
 import CategoryCustomList from "../../CategoryMoneyList/CategoryCustomList"
+import CategoryPresetItem from "../../CategoryMoneyList/CategoryPresetItem"
+import { LINK_ROUTES } from "../../../enums/routes"
 
 
 export default function MoneyInputPage() {
   const location = useLocation()
   const editItem = location.state?.item
   console.log(editItem)
+
+  const isShowTitle = true
 
   const [amount, setAmount] = useState(editItem ? String(editItem.amount) : "")
 
@@ -47,6 +51,10 @@ export default function MoneyInputPage() {
   const handlePresetSelect = (title: string, img: string) => {
     setActionTitle(title)
     setImg(img)
+  }
+
+  const handleCustomPage = () => {
+    navigate(LINK_ROUTES.CUSTOM_CATEGORY)
   }
 
   const handleAdd = () => {
@@ -101,13 +109,14 @@ export default function MoneyInputPage() {
       <InputWrapper >
         <CategoryTypeTitle>{pageTitle}</CategoryTypeTitle>
         <Form onKeyDown={handleKeyDown}>
-          <InputItem
+          {isShowTitle && (<InputItem
             type="text"
             name="moneyTitleInput"
             value={actionTitle}
             onChange={event => setActionTitle(event.target.value)}
             placeholder="Title"
           />
+          )}
 
           <InputItem
             type="number"
@@ -117,9 +126,16 @@ export default function MoneyInputPage() {
             placeholder="Amount"
           />
 
-          <CategoryCustomList/>
+          <CustomItemWrapper onClick={handleCustomPage}>
+            <CategoryPresetItem
+              title="Add"
+              img="/img/custom_icon.svg"
+            />
+          </CustomItemWrapper>
 
-          <CategoryMoneyList onClick={handlePresetSelect}/>
+          <CategoryCustomList onPresetSelect={handlePresetSelect} />
+
+          <CategoryMoneyList onPresetSelect={handlePresetSelect} />
 
           {editItem && (<InputItem
             type="date"
@@ -200,4 +216,12 @@ font-weight: bolder;
 border-radius: 20px;
 cursor: pointer;
 margin-top: 30px;
+`
+
+const CustomItemWrapper = styled.div`
+width: 34px;
+height: 34px;
+background-color: #3a5268;
+border-radius: 50%;
+margin: 14px;
 `

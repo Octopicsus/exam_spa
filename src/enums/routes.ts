@@ -3,4 +3,5 @@ export enum LINK_ROUTES {
     EXPENSE = '/expense',
     MONEY_INPUT = '/moneyinputpage',
     MONEY_ITEM = '/moneyitempage',
+    CUSTOM_CATEGORY = '/customcategory'
   }

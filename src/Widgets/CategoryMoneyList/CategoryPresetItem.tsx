@@ -3,12 +3,18 @@ import styled from "styled-components"
 export type Props = {
   title: string
   img: string
-  onClick: (title: string, img: string) => void
+  onClick?: (title: string, img: string) => void
 }
 
 export default function CategoryPresetItem({ title, img, onClick }: Props) {
+  const handleClick = () => {
+    if (onClick) {
+      onClick(title, img)
+    }
+  }
+
   return (
-    <Button type="button" onClick={() => onClick(title, img)}>
+    <Button type="button" onClick={handleClick}>
       <Icon src={img} alt={title} />
       <Desc>{title}</Desc>
     </Button>

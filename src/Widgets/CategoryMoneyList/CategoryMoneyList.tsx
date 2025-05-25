@@ -11,11 +11,11 @@ export type CategoryType = {
     img: string
 }
 
-export type Props = {
-    onClick: (title: string, img: string) => void
+export type CategoryMoneyListProps = {
+    onPresetSelect?: (title: string, img: string) => void
 }
 
-export default function CategoryMoneyList({ onClick }: Props) {
+export default function CategoryMoneyList({ onPresetSelect }: CategoryMoneyListProps) {
     const category = useSelector((state: RootState) => state.category.category)
 
     const categoryType = category.toLowerCase()
@@ -44,7 +44,7 @@ export default function CategoryMoneyList({ onClick }: Props) {
                             <CategoryPresetItem
                                 title={cat.title}
                                 img={cat.img}
-                                onClick={onClick}
+                                 onClick={onPresetSelect}
                             />
                         </li>
                     ))}
