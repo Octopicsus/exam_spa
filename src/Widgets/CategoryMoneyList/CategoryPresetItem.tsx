@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import CategoryIconPlace from "../Placeholders/CategoryIconPlace"
 
 export type Props = {
   title: string
@@ -15,23 +16,26 @@ export default function CategoryPresetItem({ title, img, onClick }: Props) {
 
   return (
     <Button type="button" onClick={handleClick}>
-      <Icon src={img} alt={title} />
+      <CategoryIconPlace img={img} />
       <Desc>{title}</Desc>
     </Button>
   )
 }
 
-const Icon = styled.img`
-width: 34px;
-`
+
 
 const Desc = styled.h5`
 font-size: 14px;
 font-weight: 300;
+margin-top: 6px;
 `
 
 const Button = styled.button`
-background-color: transparent;
-border: none;
-cursor: pointer;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; 
 `

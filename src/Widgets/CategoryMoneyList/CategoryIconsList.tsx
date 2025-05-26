@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import styled from "styled-components"
 import SubTitle from "./SubTitle"
+import CategoryIconPlace from "../Placeholders/CategoryIconPlace"
 
 type CategoryIcon = {
   img: string
@@ -33,7 +34,7 @@ export default function CategoryIconsList({ onIconSelect }: Props) {
       <WrapperList>
         {icons.map((icon, id) => (
           <Wrapper key={id} onClick={() => onIconSelect?.(icon.img)}>
-            <Icon src={icon.img} />
+            <CategoryIconPlace img={icon.img} />
           </Wrapper>
         ))}
       </WrapperList>
@@ -42,26 +43,22 @@ export default function CategoryIconsList({ onIconSelect }: Props) {
 }
 
 const WrapperList = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-margin-bottom: 30px;
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 10px;
+list-style: none;
+padding: 0;
+margin: 20px 0;
+border: 1px darkgray solid;
+padding: 20px 8px ;
 `
 
 const Wrapper = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-width: 34px;
-height: 34px;
-border-radius: 50%;
-background-color: #636363;
+
+
 cursor: pointer;
 `
 
-const Icon = styled.img`
-background-position: center;
-width: 20px;
-height: 20px;
-
-`

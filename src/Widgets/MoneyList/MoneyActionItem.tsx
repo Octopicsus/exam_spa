@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router"
 import styled from "styled-components"
 import { LINK_ROUTES } from "../../enums/routes"
+import CategoryIconPlace from "../Placeholders/CategoryIconPlace"
 
 type Props = {
   title: string,
@@ -21,7 +22,7 @@ export default function MoneyActionItem({ title, amount, time, img }: Props) {
 
   return (
     <ActionItemButton onClick={handleOpenItem}>
-      <IconCategory src={img}/>
+    <CategoryIconPlace img={img}/>
       <TitleWrapper>
         <Title>{title}</Title>
         <Time>{formattedTime}</Time>
@@ -39,7 +40,7 @@ width: 300px;
 margin-bottom: 5px;
 padding-top: 10px;
 padding-bottom: 10px;
-padding-left: 16px;
+padding-left: 10px;
 cursor: pointer;
 box-sizing: border-box;
 border: none;
@@ -74,8 +75,3 @@ margin-top: 4px;
 font-size: 12px;
 `
 
-const IconCategory = styled.img`
-width: 34px;
-height: 34px;
-
-`
