@@ -41,6 +41,7 @@ export default function MoneyList() {
                   amount={moneyAction.amount}
                   date={moneyAction.date}
                   time={moneyAction.time}
+                  img={moneyAction.img}
                 />
               </Link>
             </List>

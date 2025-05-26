@@ -6,10 +6,11 @@ type Props = {
   title: string,
   amount: number,
   date: string,
-  time: string
+  time: string,
+  img: string
 }
 
-export default function MoneyActionItem({ title, amount, time }: Props) {
+export default function MoneyActionItem({ title, amount, time, img }: Props) {
   const navigate = useNavigate()
 
   function handleOpenItem() {
@@ -20,6 +21,7 @@ export default function MoneyActionItem({ title, amount, time }: Props) {
 
   return (
     <ActionItemButton onClick={handleOpenItem}>
+      <IconCategory src={img}/>
       <TitleWrapper>
         <Title>{title}</Title>
         <Time>{formattedTime}</Time>
@@ -55,8 +57,9 @@ color: #ebebeb;
 
 const Amount = styled.h4`
 width: 60px;
-text-align: center;
+text-align: right;
 font-size: 18px;
+padding-right: 16px;
 `
 
 const TitleWrapper = styled.div`
@@ -69,4 +72,10 @@ color: #7f7f7f;
 text-align: left;
 margin-top: 4px;
 font-size: 12px;
+`
+
+const IconCategory = styled.img`
+width: 34px;
+height: 34px;
+
 `
