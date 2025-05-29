@@ -5,6 +5,7 @@ import CategoryPresetItem from "./CategoryPresetItem"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import SubTitle from "./SubTitle"
+import { API_ENDPOINTS } from "../../api/api"
 
 export type CategoryType = {
     title: string
@@ -25,7 +26,7 @@ export default function CategoryMoneyList({ onPresetSelect }: CategoryMoneyListP
     useEffect(() => {
         const getCategories = async () => {
             try {
-                const result = await axios.get("data/categories.json")
+                const result = await axios.get(API_ENDPOINTS.CATEGORIES)
                 setCategories(result.data[categoryType])
             } catch {
                 setCategories([])

@@ -15,7 +15,7 @@ function getMoneyState() {
   }
 }
 
-function saveMoneyState(state: any) {
+function saveMoneyState(state: RootState) {
   localStorage.setItem("moneyHistory", JSON.stringify(state.moneyHistory))
   localStorage.setItem("category", JSON.stringify(state.category))
   localStorage.setItem("customCategory", JSON.stringify(state.customCategory))

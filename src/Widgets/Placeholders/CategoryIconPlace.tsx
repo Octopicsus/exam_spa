@@ -20,7 +20,7 @@ const IconWrapper = styled.div<{ $size: string }>`
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background-color: grey;
+    background-color: #353434;
 `
 
 const Icon = styled.img<{ $size: string }>`

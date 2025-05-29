@@ -1,7 +1,5 @@
-
 import styled from "styled-components"
 import CategoryIconPlace from "../Placeholders/CategoryIconPlace"
-
 
 type Props = {
     title: string
@@ -9,8 +7,6 @@ type Props = {
 }
 
 export default function CategoryCustomDemo({ title, img }: Props) {
-
-
     return (
         <DemoWrapper>
             <Content>

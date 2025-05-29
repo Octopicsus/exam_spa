@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, memo } from "react"
 import axios from "axios"
 import styled from "styled-components"
 import SubTitle from "./SubTitle"
 import CategoryIconPlace from "../Placeholders/CategoryIconPlace"
+import { API_ENDPOINTS } from "../../api/api"
 
 type CategoryIcon = {
   img: string
@@ -12,14 +13,13 @@ type Props = {
   onIconSelect?: (img: string) => void
 }
 
-export default function CategoryIconsList({ onIconSelect }: Props) {
+const CategoryIconsList = memo(({ onIconSelect }: Props) => {
   const [icons, setIcons] = useState<CategoryIcon[]>([])
-
 
   useEffect(() => {
     const getIcons = async () => {
       try {
-        const res = await axios.get("/data/iconsCategories.json")
+        const res = await axios.get(API_ENDPOINTS.ICONS)
         setIcons(res.data)
       } catch (err) {
         console.error(err)
@@ -40,7 +40,12 @@ export default function CategoryIconsList({ onIconSelect }: Props) {
       </WrapperList>
     </div>
   )
-}
+})
+
+CategoryIconsList.displayName = 'CategoryIconsList'
+export default CategoryIconsList
+
+
 
 const WrapperList = styled.div`
 display: grid;
@@ -57,8 +62,6 @@ const Wrapper = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-
-
 cursor: pointer;
 `
 

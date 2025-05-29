@@ -1,17 +1,30 @@
 import styled from "styled-components"
 import colors from "../../colors/colorsPalette"
+import { useSelector } from "react-redux"
+import { RootState } from "../../store/store"
 
-type  Events = {
+type Events = {
     onClick: () => void,
 }
 
-export default function InputButton({ onClick}:  Events) {
+function getbuttonLable(category: string): any {
+    switch (category) {
+        case 'Income':
+            return "+"
+        case 'Expense':
+            return "+"
+    }
+}
+
+export default function InputButton({ onClick }: Events) {
+    const category = useSelector((state: RootState) => state.category.category)
+
     return (
         <Button
             onClick={onClick}
             type="button"
         >
-            +
+            {getbuttonLable(category)}
         </Button>
     )
 }
