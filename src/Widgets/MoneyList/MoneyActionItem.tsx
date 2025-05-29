@@ -4,6 +4,7 @@ import { LINK_ROUTES } from "../../enums/routes"
 import CategoryIconPlace from "../Placeholders/CategoryIconPlace"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store/store"
+import getAmountSign from "../../utils/getAmountSign"
 
 type Props = {
   title: string,
@@ -13,15 +14,6 @@ type Props = {
   img: string,
   isFirst?: boolean,
   isLast?: boolean
-}
-
-function getbuttonLable(category: string): any {
-  switch (category) {
-    case 'Income':
-      return "+"
-    case 'Expense':
-      return "-"
-  }
 }
 
 export default function MoneyActionItem({ title, amount, time, img, isFirst, isLast }: Props) {
@@ -43,7 +35,7 @@ export default function MoneyActionItem({ title, amount, time, img, isFirst, isL
           <Time>{formattedTime}</Time>
         </TitleWrapper>
       </Wrapper>
-      <Amount>{getbuttonLable(category)} {amount}</Amount>
+      <Amount>{getAmountSign(category)} {amount}</Amount>
     </ActionItemButton>
   )
 }

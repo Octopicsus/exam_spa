@@ -7,6 +7,7 @@ import { setSelectedMoneyItemId } from "../../store/features/selectedMoneyAction
 import { Link } from "react-router"
 import { LINK_ROUTES } from "../../enums/routes"
 import { formatDate } from "../../utils/formatDate"
+import getAmountSign from "../../utils/getAmountSign"
 
 function getDates(moneyActions: MoneyItem[]): string[] {
   const uniqueDates = new Set<string>()
@@ -60,10 +61,6 @@ export default function MoneyList() {
 
   const sortedList = getSortedList(moneyAction, category)
   const groupedByDate = groupActionsByDate(sortedList)
-
-  const getAmountSign = (category: string) => {
-    return category === 'Income' ? '+' : '-'
-  }
 
   return (
     <>
