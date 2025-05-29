@@ -51,5 +51,6 @@ margin-bottom: 30px;
 margin-top: 20px;
 position: relative;
 box-sizing: border-box;
+border-radius: 8px;
 `
 

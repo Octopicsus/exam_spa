@@ -46,6 +46,9 @@ function groupActionsByDate(moneyActions: MoneyItem[]): Record<string, MoneyItem
   return result
 }
 
+function calcAmountGroup(actions: MoneyItem[]): number {
+  return actions.reduce((sum, action) => sum + action.amount, 0)
+}
 
 export default function MoneyList() {
   const category = useSelector((state: RootState) => state.category.category)
@@ -58,12 +61,20 @@ export default function MoneyList() {
   const sortedList = getSortedList(moneyAction, category)
   const groupedByDate = groupActionsByDate(sortedList)
 
+  const getAmountSign = (category: string) => {
+    return category === 'Income' ? '+' : '-'
+  }
+
   return (
     <>
       <ul>
         {Object.entries(groupedByDate).map(([date, actions]) => (
           <DateGroup key={date}>
-            <DateHeader>{formatDate(date, 'day-month')}</DateHeader>
+            <SubWrapper>
+              <DateHeader>{formatDate(date, 'day-month')}</DateHeader>
+              <AmountGroup>{getAmountSign(category)} {calcAmountGroup(actions)}</AmountGroup>
+            </SubWrapper>
+
             {actions.map((moneyAction: MoneyItem, index) => (
               <List key={moneyAction.id}>
                 <Link
@@ -89,9 +100,22 @@ export default function MoneyList() {
   )
 }
 
+
+
 const List = styled.li`
   display: flex;
   justify-content: center;
+`
+
+const SubWrapper = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 300px;
+`
+
+const AmountGroup = styled.h5`
+color: #454545;
 `
 
 const DateGroup = styled.div`
@@ -103,11 +127,10 @@ const DateGroup = styled.div`
 
 const DateHeader = styled.h3`
   text-align: left;
-  width: 300px;
   margin: 10px 0;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  color: #9b9b9b;
+  color: #7d7d7d;
 `
 
 
