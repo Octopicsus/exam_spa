@@ -8,6 +8,8 @@ import { Link } from "react-router"
 import { LINK_ROUTES } from "../../enums/routes"
 import { formatDate } from "../../utils/formatDate"
 import getAmountSign from "../../utils/getAmountSign"
+import { useRef, useImperativeHandle } from "react"
+import { searchNames } from "../../utils/searchNames"
 
 function getDates(moneyActions: MoneyItem[]): string[] {
   const uniqueDates = new Set<string>()
@@ -27,7 +29,7 @@ function getActionsByDate(moneyActions: MoneyItem[], Date: string): MoneyItem[] 
   return moneyActions.filter(action => action.date === Date)
 }
 
-function getSortedList(moneyActions: MoneyItem[], category: string): MoneyItem[] {
+export function getSortedList(moneyActions: MoneyItem[], category: string): MoneyItem[] {
   return moneyActions
     .filter((moneyAction: MoneyItem) => moneyAction.type === category)
     .sort((a, b) => {
@@ -37,7 +39,7 @@ function getSortedList(moneyActions: MoneyItem[], category: string): MoneyItem[]
     })
 }
 
-function groupActionsByDate(moneyActions: MoneyItem[]): Record<string, MoneyItem[]> {
+export function groupActionsByDate(moneyActions: MoneyItem[]): Record<string, MoneyItem[]> {
   const datesList = getDates(moneyActions)
   const result: Record<string, MoneyItem[]> = {}
 
@@ -51,24 +53,67 @@ function calcAmountGroup(actions: MoneyItem[]): number {
   return actions.reduce((sum, action) => sum + action.amount, 0)
 }
 
-export default function MoneyList() {
+type Props = {
+  searchPattern?: string
+}
+
+export default function MoneyList({ searchPattern = '', ref }: Props & { ref?: any }) {
   const category = useSelector((state: RootState) => state.category.category)
   const dispatch = useDispatch()
   const selectAll = moneyAdapter.getSelectors(
     (state: RootState) => state.moneyHistory
   ).selectAll
   const moneyAction = useSelector(selectAll)
+  const dateGroupRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
   const sortedList = getSortedList(moneyAction, category)
-  const groupedByDate = groupActionsByDate(sortedList)
+  const filteredList = searchNames(sortedList, searchPattern)
+  const groupedByDate = groupActionsByDate(filteredList)
+
+  useImperativeHandle(ref, () => ({
+    scrollToMonth: (month: string) => {
+      const currentYear = new Date().getFullYear()
+
+      for (const [date] of Object.entries(groupedByDate)) {
+        const itemDate = new Date(date)
+        const itemYear = itemDate.getFullYear()
+
+        let formattedMonth: string
+        if (itemYear === currentYear) {
+          formattedMonth = formatDate(date, 'month-only')
+        } else {
+          formattedMonth = formatDate(date, 'month-year')
+        }
+
+        if (formattedMonth === month) {
+          const element = dateGroupRefs.current[date]
+          if (element) {
+            element.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            })
+            break
+          }
+        }
+      }
+    }
+  }))
 
   return (
     <>
-      <ul>
+      <ListWrapper>
         {Object.entries(groupedByDate).map(([date, actions]) => (
-          <DateGroup key={date}>
+          <DateGroup
+            key={date}
+            ref={(el) => { dateGroupRefs.current[date] = el }}
+          >
             <SubWrapper>
-              <DateHeader>{formatDate(date, 'day-month')}</DateHeader>
+              <DateHeader>
+                {new Date(date).getFullYear() === new Date().getFullYear()
+                  ? formatDate(date, 'day-month')
+                  : formatDate(date, 'day-month-year')
+                }
+              </DateHeader>
               <AmountGroup>{getAmountSign(category)} {calcAmountGroup(actions)}</AmountGroup>
             </SubWrapper>
 
@@ -92,11 +137,10 @@ export default function MoneyList() {
             ))}
           </DateGroup>
         ))}
-      </ul>
+      </ListWrapper>
     </>
   )
 }
-
 
 
 const List = styled.li`
@@ -130,5 +174,8 @@ const DateHeader = styled.h3`
   color: #7d7d7d;
 `
 
+const ListWrapper = styled.ul`
+
+`
 
 

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { store } from './store/store'
 import { BrowserRouter } from 'react-router'
 import { createGlobalStyle } from 'styled-components'
-import colors from './colors/colorsPalette.ts'
+import colors from './ui/colorsPalette.ts'
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -19,6 +19,10 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
   }
 
+    ::-webkit-scrollbar {
+    display: none;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -27,10 +31,10 @@ const GlobalStyle = createGlobalStyle`
 `
 
 createRoot(document.getElementById('root')!).render(
-    <Provider store={store}>
-        <BrowserRouter>
-            <GlobalStyle />
-            <App />
-        </BrowserRouter>
-    </Provider>
+  <Provider store={store}>
+    <BrowserRouter>
+      <GlobalStyle />
+      <App />
+    </BrowserRouter>
+  </Provider>
 )

@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import colors from "../../colors/colorsPalette"
+import colors from "../../ui/colorsPalette"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 
