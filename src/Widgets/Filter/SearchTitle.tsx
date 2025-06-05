@@ -1,27 +1,19 @@
 import styled from "styled-components"
-import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../store/store"
+import { setSearchTerm, clearSearchTerm } from "../../store/features/searchSlice"
 
-type Props = {
-    onSearch?: (searchTerm: string) => void
-}
-
-export default function SearchTitle({ onSearch }: Props) {
-    const [searchValue, setSearchValue] = useState("")
+export default function SearchTitle() {
+    const dispatch = useDispatch()
+    const searchValue = useSelector((state: RootState) => state.search.searchTerm)
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
-        setSearchValue(value)
-
-        if (onSearch) {
-            onSearch(value)
-        }
+        dispatch(setSearchTerm(value))
     }
 
     const handleClear = () => {
-        setSearchValue("")
-        if (onSearch) {
-            onSearch("")
-        }
+        dispatch(clearSearchTerm())
     }
 
     return (
@@ -45,6 +37,9 @@ border-radius: 16px;
 background-color: #2c2c2c;
 display: flex;
 align-items: center;
+margin-left: auto;
+margin-right: auto;
+
 `
 
 const Input = styled.input`

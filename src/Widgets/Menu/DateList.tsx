@@ -4,9 +4,11 @@ import { RootState } from "../../store/store"
 import { moneyAdapter } from "../../store/features/moneyHistorySlice"
 import { getSortedList, groupActionsByDate } from "../MoneyList/MoneyList"
 import { formatDate } from "../../utils/formatDate"
+import { useState, useEffect } from "react"
 
 type Props = {
     onMonthSelect?: (month: string) => void
+    activeMonth?: string
 }
 
 function monthList(groupedByDate: any) {
@@ -24,7 +26,7 @@ function monthList(groupedByDate: any) {
     return monthList;
 }
 
-export default function DateList({ onMonthSelect }: Props) {
+export default function DateList({ onMonthSelect, activeMonth }: Props) {
     const category = useSelector((state: RootState) => state.category.category)
     const selectAll = moneyAdapter.getSelectors(
         (state: RootState) => state.moneyHistory
@@ -33,8 +35,16 @@ export default function DateList({ onMonthSelect }: Props) {
     const sortedList = getSortedList(moneyAction, category)
     const groupedByDate = groupActionsByDate(sortedList)
     const months = monthList(groupedByDate)
+    const [highlightedMonth, setHighlightedMonth] = useState<string>("")
+
+    useEffect(() => {
+        if (activeMonth) {
+            setHighlightedMonth(activeMonth)
+        }
+    }, [activeMonth])
 
     const handleMonthClick = (month: string) => {
+        setHighlightedMonth(month)
         if (onMonthSelect) {
             onMonthSelect(month)
         }
@@ -44,7 +54,13 @@ export default function DateList({ onMonthSelect }: Props) {
         <Wrapper>
             <List>
                 {months.map((month, index) => (
-                    <Item key={index} onClick={() => handleMonthClick(month)}>{month}</Item>
+                    <Item 
+                        key={index} 
+                        onClick={() => handleMonthClick(month)}
+                        $active={month === highlightedMonth}
+                    >
+                        {month}
+                    </Item>
                 ))}
             </List>
         </Wrapper>
@@ -58,9 +74,6 @@ height: 40px;
 width: 100%;
 padding: 0 10px;
 box-sizing: border-box;
-position: sticky;
-top: 20px;
-z-index: 1000;
 `
 
 const List = styled.ul`
@@ -68,19 +81,34 @@ display:flex ;
 gap: 10px;
 overflow-x: scroll;
 direction: rtl;
+scrollbar-width: none;
+-ms-overflow-style: none;
+
+&::-webkit-scrollbar {
+    display: none;
+}
 `
 
-const Item = styled.li`
+const Item = styled.li<{ $active?: boolean }>`
 list-style: none;
 font-size: small;
-font-weight: 400;
+font-weight: ${({ $active }) => $active ? '600' : '400'};
 padding: 6px 12px;
-background-color: #343434;
+background-color: ${({ $active }) => $active ? '#ffb700' : '#2a2a2a'};
+color: ${({ $active }) => $active ? '#000' : '#fff'};
+border: ${({ $active }) => $active ? '2px solid #ffb700' : '2px solid transparent'};
 border-radius: 15px;
 white-space: nowrap;
 cursor: pointer;
+transition: all 0.3s ease;
+user-select: none;
 
-&:hover{
-    background-color: gray;
+&:hover {
+    background-color: ${({ $active }) => $active ? '#e6a500' : '#454545'};
+    transform: translateY(-1px);
+}
+
+&:active {
+    transform: translateY(0);
 }
 `

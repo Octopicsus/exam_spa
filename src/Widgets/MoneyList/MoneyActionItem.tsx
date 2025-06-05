@@ -45,7 +45,6 @@ const ActionItemButton = styled.button<{ $isFirst?: boolean; $isLast?: boolean }
   justify-content: space-between;
   background-color: #1c1c1c;
   width: 300px;
-  margin-bottom: 0;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 10px;

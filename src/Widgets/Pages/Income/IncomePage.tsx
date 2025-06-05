@@ -24,7 +24,7 @@ export default function IncomePage() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const moneyListRef = useRef<any>(null)
-    const [searchTerm, setSearchTerm] = useState('')
+    const [visibleMonth, setVisibleMonth] = useState<string>("")
 
     const handleInput = () => {
         dispatch(setCategory(CATEGORY.INCOME))
@@ -37,8 +37,8 @@ export default function IncomePage() {
         }
     }
 
-    const handleSearch = (searchValue: string) => {
-        setSearchTerm(searchValue)
+    const handleVisibleMonthChange = (month: string) => {
+        setVisibleMonth(month)
     }
 
     return (
@@ -50,9 +50,17 @@ export default function IncomePage() {
                         onClick={handleInput}
                     />
                 </InfoGraph>
-                <SearchTitle onSearch={handleSearch} />
-                <DateList onMonthSelect={handleMonthSelect} />
-                <MoneyList ref={moneyListRef} searchPattern={searchTerm} />
+                <SearchTitle />
+                <List>
+                    <DateList
+                        onMonthSelect={handleMonthSelect}
+                        activeMonth={visibleMonth}
+                    />
+                    <MoneyList
+                        ref={moneyListRef}
+                        onVisibleMonthChange={handleVisibleMonthChange}
+                    />
+                </List>
             </Wrapper>
         </>
     )
@@ -75,4 +83,10 @@ border-radius: 8px;
 const Wrapper = styled.div`
 width: 320px;
 margin: 0 auto;
+`
+
+const List = styled.div`
+position: sticky;
+top: 20px;
+z-index: 1000;
 `

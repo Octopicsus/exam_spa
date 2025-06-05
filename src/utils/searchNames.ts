@@ -1,16 +1,23 @@
 import { MoneyItem } from "../store/features/moneyHistorySlice";
+import Fuse from 'fuse.js';
 
 export function searchNames(arr: MoneyItem[], input: string): MoneyItem[] {
-    const searchPattern = input
-        .toLowerCase()
-        .split('')
-        .map(char => `.*${char}`)
-        .join('') + '.*';
-    const regex = new RegExp(searchPattern);
+    if (!input.trim()) {
+        return arr;
+    }
 
-    return arr.filter(item => {
-        const searchText = typeof item === 'string' ? item : item.title
-        return regex.test(searchText.toLowerCase())
+    const fuse = new Fuse(arr, {
+         keys: ['title'],
+        threshold: 0.5,  
+        includeScore: false,
+        minMatchCharLength: 1,
+        ignoreLocation: true, 
+        findAllMatches: true,  
+        useExtendedSearch: true  
     });
+
+    const results = fuse.search(input);
+    return results.map(result => result.item);
 }
+
 

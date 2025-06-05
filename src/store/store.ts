@@ -3,6 +3,7 @@ import categoryReducer from "./features/categorySlice"
 import moneyHistoryReducer from "./features/moneyHistorySlice"
 import selectedMoneyItemReducer from "./features/selectedMoneyActionSlice"
 import customCategoryReducer from "./features/customCategorySlice"
+import searchReducer from "./features/searchSlice"
 
 function getMoneyState() {
   const moneyHistory = localStorage.getItem("moneyHistory")
@@ -27,6 +28,7 @@ export const store = configureStore({
     moneyHistory: moneyHistoryReducer,
     selectedMoneyItem: selectedMoneyItemReducer,
     customCategory: customCategoryReducer,
+    search: searchReducer,
   },
   preloadedState: getMoneyState()
 })

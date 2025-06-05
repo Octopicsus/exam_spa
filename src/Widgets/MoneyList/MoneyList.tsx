@@ -8,7 +8,7 @@ import { Link } from "react-router"
 import { LINK_ROUTES } from "../../enums/routes"
 import { formatDate } from "../../utils/formatDate"
 import getAmountSign from "../../utils/getAmountSign"
-import { useRef, useImperativeHandle } from "react"
+import { useRef, useImperativeHandle, useEffect, useCallback, forwardRef } from "react"
 import { searchNames } from "../../utils/searchNames"
 
 function getDates(moneyActions: MoneyItem[]): string[] {
@@ -54,21 +54,64 @@ function calcAmountGroup(actions: MoneyItem[]): number {
 }
 
 type Props = {
-  searchPattern?: string
+  onVisibleMonthChange?: (month: string) => void
 }
 
-export default function MoneyList({ searchPattern = '', ref }: Props & { ref?: any }) {
+const MoneyList = forwardRef<any, Props>(({ onVisibleMonthChange }, ref) => {
   const category = useSelector((state: RootState) => state.category.category)
+  const searchPattern = useSelector((state: RootState) => state.search.searchTerm)
   const dispatch = useDispatch()
   const selectAll = moneyAdapter.getSelectors(
     (state: RootState) => state.moneyHistory
   ).selectAll
   const moneyAction = useSelector(selectAll)
   const dateGroupRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
+  const observerRef = useRef<IntersectionObserver | null>(null)
 
   const sortedList = getSortedList(moneyAction, category)
   const filteredList = searchNames(sortedList, searchPattern)
   const groupedByDate = groupActionsByDate(filteredList)
+
+  const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+        const date = entry.target.getAttribute('data-date')
+        if (date && onVisibleMonthChange) {
+          const itemDate = new Date(date)
+          const currentYear = new Date().getFullYear()
+          const itemYear = itemDate.getFullYear()
+
+          const formattedMonth = itemYear === currentYear
+            ? formatDate(date, 'month-only')
+            : formatDate(date, 'month-year')
+
+          onVisibleMonthChange(formattedMonth)
+        }
+      }
+    })
+  }, [onVisibleMonthChange])
+
+  useEffect(() => {
+    if (observerRef.current) {
+      observerRef.current.disconnect()
+    }
+
+    observerRef.current = new IntersectionObserver(handleIntersection, {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: [0, 0.5, 1]
+    })
+
+    Object.values(dateGroupRefs.current).forEach(element => {
+      if (element) {
+        observerRef.current?.observe(element)
+      }
+    })
+
+    return () => {
+      observerRef.current?.disconnect()
+    }
+  }, [handleIntersection, groupedByDate])
 
   useImperativeHandle(ref, () => ({
     scrollToMonth: (month: string) => {
@@ -105,7 +148,13 @@ export default function MoneyList({ searchPattern = '', ref }: Props & { ref?: a
         {Object.entries(groupedByDate).map(([date, actions]) => (
           <DateGroup
             key={date}
-            ref={(el) => { dateGroupRefs.current[date] = el }}
+            ref={(el) => {
+              dateGroupRefs.current[date] = el
+              if (el && observerRef.current) {
+                observerRef.current.observe(el)
+              }
+            }}
+            data-date={date}
           >
             <SubWrapper>
               <DateHeader>
@@ -140,8 +189,11 @@ export default function MoneyList({ searchPattern = '', ref }: Props & { ref?: a
       </ListWrapper>
     </>
   )
-}
+})
 
+MoneyList.displayName = 'MoneyList'
+
+export default MoneyList
 
 const List = styled.li`
   display: flex;
@@ -160,7 +212,7 @@ color: #454545;
 `
 
 const DateGroup = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -175,7 +227,5 @@ const DateHeader = styled.h3`
 `
 
 const ListWrapper = styled.ul`
-
+margin-top: 10px;
 `
-
-
