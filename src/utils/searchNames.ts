@@ -7,7 +7,7 @@ export function searchNames(arr: MoneyItem[], input: string): MoneyItem[] {
     }
 
     const fuse = new Fuse(arr, {
-         keys: ['title'],
+         keys: ['title', 'description'],
         threshold: 0.5,  
         includeScore: false,
         minMatchCharLength: 1,

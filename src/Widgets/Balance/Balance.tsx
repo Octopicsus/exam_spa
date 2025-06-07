@@ -51,13 +51,13 @@ export default function Balance() {
 }
 
 const BalanceValue = styled.div`
-   font-size: 80px;
+   font-size: 50px;
    font-weight: 600;
    display: flex;
    justify-content: center;
    align-items: center;
    gap: 10px;
-   margin-bottom: 30px;
+   margin-bottom: 40px;
    margin-top: 80px;
    `
 
