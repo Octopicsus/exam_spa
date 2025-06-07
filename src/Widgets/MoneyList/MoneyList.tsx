@@ -10,6 +10,7 @@ import { formatDate } from "../../utils/formatDate"
 import getAmountSign from "../../utils/getAmountSign"
 import { useRef, useImperativeHandle, useEffect, useCallback, forwardRef } from "react"
 import { searchNames } from "../../utils/searchNames"
+import { formatAmount } from "../../utils/balanceCalc"
 
 function getDates(moneyActions: MoneyItem[]): string[] {
   const uniqueDates = new Set<string>()
@@ -163,7 +164,7 @@ const MoneyList = forwardRef<any, Props>(({ onVisibleMonthChange }, ref) => {
                   : formatDate(date, 'day-month-year')
                 }
               </DateHeader>
-              <AmountGroup>{getAmountSign(category)} {calcAmountGroup(actions)}</AmountGroup>
+              <AmountGroup>{getAmountSign(category)} {formatAmount(calcAmountGroup(actions))}</AmountGroup>
             </SubWrapper>
 
             {actions.map((moneyAction: MoneyItem, index) => (
@@ -174,10 +175,12 @@ const MoneyList = forwardRef<any, Props>(({ onVisibleMonthChange }, ref) => {
                 >
                   <MoneyActionItem
                     title={moneyAction.title}
+                    desc={moneyAction.description}
                     amount={moneyAction.amount}
                     date={moneyAction.date}
                     time={moneyAction.time}
                     img={moneyAction.img}
+                    color={moneyAction.color}
                     isFirst={index === 0}
                     isLast={index === actions.length - 1}
                   />

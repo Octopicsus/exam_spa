@@ -30,7 +30,7 @@ const CategoryIconsList = memo(({ onIconSelect }: Props) => {
 
   return (
     <div>
-      <SubTitle title="Style" />
+      <SubTitle title="Design" />
       <WrapperList>
         {icons.map((icon, id) => (
           <Wrapper key={id} onClick={() => onIconSelect?.(icon.img)}>
@@ -55,7 +55,7 @@ list-style: none;
 padding: 0;
 margin: 20px 0;
 border: 1px darkgray solid;
-padding: 20px 8px ;
+padding: 20px 8px; 
 `
 
 const Wrapper = styled.div`

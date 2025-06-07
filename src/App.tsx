@@ -8,8 +8,11 @@ import IncomePage from './Widgets/Pages/Income/IncomePage'
 import ExpensePage from './Widgets/Pages/Expense/ExpensePage'
 import MoneyInputPage from './Widgets/Pages/Action/MoneyInputPage'
 import MoneyItemPage from './Widgets/Pages/Action/MoneyItemPage'
-
 import CustomCategoryPage from './Widgets/Pages/Action/CustomCategoryPage'
+import SelectedCurrency from './Widgets/Currency/SelectedCurrency'
+import { useCurrencyConverter } from './hooks/useCurrencyConverter'
+
+
 
 const AppContainer = styled.div`
   max-width: 1280px;
@@ -19,6 +22,8 @@ const AppContainer = styled.div`
 
 function App() {
   const navigate = useNavigate()
+
+  useCurrencyConverter()
 
   useEffect(() => {
     if (window.location.pathname === '/') {
@@ -36,6 +41,7 @@ function App() {
         <>
           <Balance />
           <CategoryMenu />
+          <SelectedCurrency />
         </>
       )}
       <Routes>

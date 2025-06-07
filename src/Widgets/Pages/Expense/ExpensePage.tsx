@@ -2,17 +2,17 @@ import { useNavigate } from "react-router"
 import InputButton from "../../Buttons/InputButton"
 import SubBalance from "../../Balance/SubBalance"
 import { moneyAdapter } from "../../../store/features/moneyHistorySlice"
-import { RootState } from "../../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { getExpense } from "../../../utils/balanceCalc";
-import MoneyList from "../../MoneyList/MoneyList";
-import { LINK_ROUTES } from "../../../enums/routes";
-import styled from "styled-components";
-import { setCategory } from "../../../store/features/categorySlice";
-import { CATEGORY } from "../../../enums/categoryTitles";
-import DateList from "../../Menu/DateList";
-import { useRef, useState } from "react";
-import SearchTitle from "../../Filter/SearchTitle";
+import { RootState } from "../../../store/store"
+import { useDispatch, useSelector } from "react-redux"
+import { getExpense } from "../../../utils/balanceCalc"
+import MoneyList from "../../MoneyList/MoneyList"
+import { LINK_ROUTES } from "../../../enums/routes"
+import styled from "styled-components"
+import { setCategory } from "../../../store/features/categorySlice"
+import { CATEGORY } from "../../../enums/categoryTitles"
+import DateList from "../../Menu/DateList"
+import { useRef, useState } from "react"
+import SearchTitle from "../../Filter/SearchTitle"
 
 export default function ExpensePage() {
     const selectAll = moneyAdapter.getSelectors(

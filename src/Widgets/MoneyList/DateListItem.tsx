@@ -8,7 +8,7 @@ export default function DateListItem() {
 }
 
 const DateItem = styled.h5`
- color   : white ;
+ color   : white; 
  text-align: left;
  margin-bottom: 8px;
 `

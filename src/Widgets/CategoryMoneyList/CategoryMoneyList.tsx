@@ -10,10 +10,11 @@ import { API_ENDPOINTS } from "../../api/api"
 export type CategoryType = {
     title: string
     img: string
+    color: string
 }
 
 export type CategoryMoneyListProps = {
-    onPresetSelect?: (title: string, img: string) => void
+    onPresetSelect?: (title: string, img: string, color?: string) => void
 }
 
 export default function CategoryMoneyList({ onPresetSelect }: CategoryMoneyListProps) {
@@ -45,7 +46,8 @@ export default function CategoryMoneyList({ onPresetSelect }: CategoryMoneyListP
                             <CategoryPresetItem
                                 title={cat.title}
                                 img={cat.img}
-                                 onClick={onPresetSelect}
+                                color={cat.color}
+                                onClick={onPresetSelect}
                             />
                         </li>
                     ))}

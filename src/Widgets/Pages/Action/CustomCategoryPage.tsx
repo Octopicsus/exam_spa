@@ -15,9 +15,9 @@ import { addCustomCategory } from "../../../store/features/customCategorySlice"
 export default function CustomCategoryPage() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const category = useSelector((state: RootState) => state.category.category)
-    const [selectedCategory, setSelectedCategory] = useState(category)
-    const [titleItem, setTitleItem] = useState("Title")
+    const type = useSelector((state: RootState) => state.category.category)
+    const [selectedType, setSelectedType] = useState(type)
+    const [categoryItem, setCategoryItem] = useState("Category")
     const [selectedIcon, setSelectedIcon] = useState<string>("/public/img/custom_icon.svg")
 
     const handleBack = () => {
@@ -25,11 +25,11 @@ export default function CustomCategoryPage() {
     }
 
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedCategory(event.target.value)
+        setSelectedType(event.target.value)
     }
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTitleItem(event.target.value)
+        setCategoryItem(event.target.value)
     }
 
     const handleIconSelect = (img: string) => {
@@ -38,8 +38,8 @@ export default function CustomCategoryPage() {
 
     const handleAdd = (event: React.FormEvent) => {
         event.preventDefault()
-        if (titleItem.trim() && selectedIcon) {
-            dispatch(addCustomCategory({ title: titleItem, img: selectedIcon, type: selectedCategory }))
+        if (categoryItem.trim() && selectedIcon) {
+            dispatch(addCustomCategory({ title: categoryItem, img: selectedIcon, type: selectedType }))
             handleBack()
         }
     }
@@ -48,18 +48,18 @@ export default function CustomCategoryPage() {
     return (
         <>
             <CustomCategoryPageInput>
-                <div>Custom Title</div>
+                <div>Custom Category</div>
                 <Form onSubmit={handleAdd}>
                     <InputWrapper>
-                        <Input type="text" name="categoryTitle" placeholder={titleItem} onChange={handleTitleChange} />
-                        <Select value={selectedCategory} onChange={handleSelectChange}>
+                        <Input type="text" name="categoryTitle" placeholder={categoryItem} onChange={handleTitleChange} />
+                        <Select value={selectedType} onChange={handleSelectChange}>
                             <option value={CATEGORY.EXPENSE}>Expense</option>
                             <option value={CATEGORY.INCOME}>Income</option>
                         </Select>
                     </InputWrapper>
                     <CategoryIconsList onIconSelect={handleIconSelect} />
-                    <CategoryCustomDemo title={titleItem} img={selectedIcon} />
-                    <CategoryCustomList type={selectedCategory} />
+                    <CategoryCustomDemo title={categoryItem} img={selectedIcon} />
+                    <CategoryCustomList type={selectedType} />
                     <div>
                         <button type="reset" onClick={handleBack}>Cancel</button>
                         <button type="submit">Add</button>
@@ -102,7 +102,6 @@ const Input = styled.input`
     opacity: 1;
   }
 `
-
 
 const Select = styled.select`
   width: 90%;

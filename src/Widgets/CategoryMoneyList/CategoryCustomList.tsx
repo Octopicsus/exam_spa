@@ -20,13 +20,14 @@ export default function CategoryCustomList({ onPresetSelect, type }: Props) {
 
     const isCustomCategoryPage = location.pathname.includes(LINK_ROUTES.CUSTOM_CATEGORY)
 
-    const handleClick = (cat: { title: string; img: string; type: string }) => {
-        if (isCustomCategoryPage) {
-            dispatch(removeCustomCategory(cat))
-        } else if (onPresetSelect) {
-            onPresetSelect(cat.title, cat.img)
-        }
+const handleClick = (title: string, img: string) => {
+    const cat = { title, img, type }
+    if (isCustomCategoryPage) {
+        dispatch(removeCustomCategory(cat))
+    } else if (onPresetSelect) {
+        onPresetSelect(title, img)
     }
+}
 
     return (
         <>
@@ -38,7 +39,7 @@ export default function CategoryCustomList({ onPresetSelect, type }: Props) {
                             <CategoryPresetItem
                                 title={cat.title}
                                 img={cat.img}
-                                onClick={() => handleClick(cat)}
+                                onClick={handleClick}
                             />
                         </li>
                     ))}

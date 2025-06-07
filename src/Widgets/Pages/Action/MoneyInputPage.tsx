@@ -19,14 +19,17 @@ export default function MoneyInputPage() {
   const location = useLocation()
   const editItem = location.state?.item
   const isShowTitle = true
-  const [amount, setAmount] = useState(editItem ? String(editItem.amount) : "")
+  const [amount, setAmount] = useState(editItem ? String(editItem.originalAmount || editItem.amount) : "")
+  const [actionDesc, setActionDesc] = useState(editItem ? editItem.description : "")
   const [actionTitle, setActionTitle] = useState(editItem ? editItem.title : "")
   const [img, setImg] = useState(editItem ? editItem.img || "" : "")
+  const [currentColor, setColor] = useState(editItem ? editItem.color : "#353434")
   const [date, setDate] = useState(
     editItem && editItem.date ? editItem.date : new Date().toISOString().slice(0, 10)
   )
   const dispatch = useDispatch()
   const category = useSelector((state: RootState) => state.category.category)
+  const currency = useSelector((state: RootState) => state.currency)
   const selectAll = moneyAdapter.getSelectors(
     (state: RootState) => state.moneyHistory
   ).selectAll
@@ -38,9 +41,12 @@ export default function MoneyInputPage() {
   const isExpense = category === CATEGORY.EXPENSE
   const isBlocked = isExpense && numAmount > balance
 
-  const handlePresetSelect = (title: string, img: string) => {
+  const handlePresetSelect = (title: string, img: string, color?: string) => {
     setActionTitle(title)
     setImg(img)
+    if (color) {
+      setColor(color)
+    }
   }
 
   const handleCustomPage = () => {
@@ -62,10 +68,14 @@ export default function MoneyInputPage() {
           id: editItem.id,
           type: category,
           title: actionTitle,
+          description: actionDesc,
           amount: numAmount,
+          originalAmount: numAmount,
+          originalCurrency: currency.to,
           date: formattedDate,
           time: formattedTime,
-          img: img
+          img: img,
+          color: currentColor,
         }))
 
       } else {
@@ -73,15 +83,21 @@ export default function MoneyInputPage() {
           id: Date.now(),
           type: category,
           title: actionTitle,
+          description: actionDesc,
           amount: numAmount,
+          originalAmount: numAmount,
+          originalCurrency: currency.to,
           date: formattedDate,
           time: formattedTime,
-          img: img
+          img: img,
+          color: currentColor,
+
         }))
       }
 
       setAmount("")
       setActionTitle("")
+      setActionDesc("")
       setDate(new Date().toISOString().slice(0, 10))
 
       navigate(getCategoryPath(category))
@@ -104,9 +120,22 @@ export default function MoneyInputPage() {
             name="moneyTitleInput"
             value={actionTitle}
             onChange={event => setActionTitle(event.target.value)}
-            placeholder="Title"
+            placeholder="Category"
+            readOnly
+            style={{
+              outline: 'none',
+              pointerEvents: 'none',
+            }}
           />
           )}
+
+          <InputItem
+            type="text"
+            name="moneyDescInput"
+            value={actionDesc}
+            onChange={event => setActionDesc(event.target.value)}
+            placeholder="Description"
+          />
 
           <InputItem
             type="number"

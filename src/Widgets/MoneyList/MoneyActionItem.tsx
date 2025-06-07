@@ -5,20 +5,47 @@ import CategoryIconPlace from "../Placeholders/CategoryIconPlace"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import getAmountSign from "../../utils/getAmountSign"
+import { useEffect, useState } from "react"
+import { formatAmount } from "../../utils/balanceCalc"
 
 type Props = {
   title: string,
+  desc?: string,
   amount: number,
   date: string,
   time: string,
   img: string,
+  color: string,
   isFirst?: boolean,
   isLast?: boolean
 }
 
-export default function MoneyActionItem({ title, amount, time, img, isFirst, isLast }: Props) {
+export default function MoneyActionItem({ title, desc, amount, time, img, color, isFirst, isLast }: Props) {
   const navigate = useNavigate()
+    const currency = useSelector((state: RootState) => state.currency)
   const category = useSelector((state: RootState) => state.category.category)
+    const [currencySign, setCurrencySign] = useState("zł")
+  
+    useEffect(() => {
+      const fetchCurrencySign = async () => {
+        try {
+          const response = await fetch('/data/currency.json')
+          const data = await response.json()
+          const selectedCurrency = data.currencies.find(
+            (curr: any) => curr.code === currency.to
+          )
+          if (selectedCurrency) {
+            setCurrencySign(selectedCurrency.sign)
+          }
+        } catch (error) {
+          console.error(error)
+        }
+      }
+  
+      fetchCurrencySign()
+    }, [currency.to])
+
+  
 
   function handleOpenItem() {
     navigate(LINK_ROUTES.MONEY_ITEM)
@@ -29,13 +56,18 @@ export default function MoneyActionItem({ title, amount, time, img, isFirst, isL
   return (
     <ActionItemButton onClick={handleOpenItem} $isFirst={isFirst} $isLast={isLast}>
       <Wrapper>
-        <CategoryIconPlace img={img} />
+        <CategoryIconPlace img={img} color={color}/>
         <TitleWrapper>
-          <Title>{title}</Title>
+          {desc && <Desc>{desc}</Desc>}
+          <Category $hasDesc={!!desc}>{title}</Category>
           <Time>{formattedTime}</Time>
         </TitleWrapper>
       </Wrapper>
-      <Amount>{getAmountSign(category)} {amount}</Amount>
+      <Amount>{getAmountSign(category)} {formatAmount(amount)} 
+        <Sign>
+           {currencySign}
+        </Sign>
+        </Amount>
     </ActionItemButton>
   )
 }
@@ -52,10 +84,10 @@ const ActionItemButton = styled.button<{ $isFirst?: boolean; $isLast?: boolean }
   box-sizing: border-box;
   border: none;
   border-radius: ${props => {
-    if (props.$isFirst && props.$isLast) return '8px';
-    if (props.$isFirst) return '8px 8px 0 0';
-    if (props.$isLast) return '0 0 8px 8px';
-    return '0';
+    if (props.$isFirst && props.$isLast) return '8px'
+    if (props.$isFirst) return '8px 8px 0 0'
+    if (props.$isLast) return '0 0 8px 8px'
+    return '0'
   }};
 
   &:hover {
@@ -68,17 +100,28 @@ display: flex;
 align-items: center;
 `
 
-const Title = styled.h4`
+const Category = styled.h4<{ $hasDesc?: boolean }>`
 width: 80px;
 text-align: left;
-color: #ebebeb;
+font-size: ${props => props.$hasDesc ? '12px' : '14px'};
+font-weight: 400;
+color: ${props => props.$hasDesc ? '#7b7b7b' : '#c6c6c6'};
+margin-top: 2px;
+`
+
+const Desc = styled.h4`
+width: 80px;
+font-size: 14px;
+text-align: left;
+color: #c6c6c6;
 `
 
 const Amount = styled.h4`
 width: 150px;
 text-align: right;
 font-size: 18px;
-padding-right: 16px;
+padding-right: 12px;
+
 `
 
 const TitleWrapper = styled.div`
@@ -88,9 +131,15 @@ padding-left: 16px;
 `
 
 const Time = styled.h6`
-color: #7f7f7f;
+color: #808080;
 text-align: left;
-margin-top: 4px;
+margin-top: 6px;
 font-size: 12px;
 `
 
+const Sign = styled.span`
+font-size: 15px;
+margin-left: 4px;
+color: #ffffff;
+font-weight: 600;
+`

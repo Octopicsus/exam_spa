@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CATEGORY } from "../../enums/categoryTitles";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { CATEGORY } from "../../enums/categoryTitles"
 
 type CategoryState = {
     category: string

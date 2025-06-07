@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import colors from "../../ui/colorsPalette"
+import { formatAmount } from "../../utils/balanceCalc"
 
 type CatValues = {
     value: number
@@ -7,7 +8,7 @@ type CatValues = {
 
 export default function SubBalance({ value }: CatValues) {
     return (
-        <ShowValue>{value}</ShowValue>
+        <ShowValue>{formatAmount(value)}</ShowValue>
     )
 }
 

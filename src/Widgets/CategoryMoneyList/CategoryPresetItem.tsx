@@ -4,24 +4,24 @@ import CategoryIconPlace from "../Placeholders/CategoryIconPlace"
 export type Props = {
   title: string
   img: string
-  onClick?: (title: string, img: string) => void
+  color?: string
+  onClick?: (title: string, img: string, color?: string) => void 
 }
 
-export default function CategoryPresetItem({ title, img, onClick }: Props) {
+export default function CategoryPresetItem({ title, img, color, onClick }: Props) {
   const handleClick = () => {
     if (onClick) {
-      onClick(title, img)
+      onClick(title, img, color)  
     }
   }
 
   return (
     <Button type="button" onClick={handleClick}>
-      <CategoryIconPlace img={img} />
+      <CategoryIconPlace img={img} color={color}/>
       <Desc>{title}</Desc>
     </Button>
   )
 }
-
 
 
 const Desc = styled.h5`

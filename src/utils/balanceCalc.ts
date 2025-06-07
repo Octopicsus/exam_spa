@@ -14,3 +14,7 @@ export function getIncome(items: MoneyItem[]) {
 export function getExpense(items: MoneyItem[]) {
     return items.filter(item => item.type === CATEGORY.EXPENSE).reduce((acc, item) => acc + item.amount, 0)
 }
+
+export function formatAmount(amount: number): string {
+    return Math.round(amount).toString()
+}

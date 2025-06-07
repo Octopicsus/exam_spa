@@ -12,18 +12,18 @@ type Props = {
 }
 
 function monthList(groupedByDate: any) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = new Date().getFullYear()
     const monthsWithActions = Object.keys(groupedByDate).map(dateKey => {
-        const date = new Date(dateKey);
-        const year = date.getFullYear();
+        const date = new Date(dateKey)
+        const year = date.getFullYear()
 
         return year === currentYear
             ? formatDate(dateKey, 'month-only')
-            : formatDate(dateKey, 'month-year');
-    });
-    const monthList = [...new Set(monthsWithActions)];
+            : formatDate(dateKey, 'month-year')
+    })
+    const monthList = [...new Set(monthsWithActions)]
 
-    return monthList;
+    return monthList
 }
 
 export default function DateList({ onMonthSelect, activeMonth }: Props) {
@@ -77,7 +77,7 @@ box-sizing: border-box;
 `
 
 const List = styled.ul`
-display:flex ;
+display:flex;
 gap: 10px;
 overflow-x: scroll;
 direction: rtl;
