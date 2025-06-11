@@ -7,13 +7,13 @@ export function searchNames(arr: MoneyItem[], input: string): MoneyItem[] {
     }
 
     const fuse = new Fuse(arr, {
-         keys: ['title', 'description'],
-        threshold: 0.5,  
+        keys: ['title', 'description'],
+        threshold: 0.4,
         includeScore: false,
         minMatchCharLength: 1,
-        ignoreLocation: true, 
-        findAllMatches: true,  
-        useExtendedSearch: true  
+        ignoreLocation: true,
+        findAllMatches: true,
+        useExtendedSearch: true
     })
 
     const results = fuse.search(input)

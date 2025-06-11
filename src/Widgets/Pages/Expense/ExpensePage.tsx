@@ -13,6 +13,7 @@ import { CATEGORY } from "../../../enums/categoryTitles"
 import DateList from "../../Menu/DateList"
 import { useRef, useState } from "react"
 import SearchTitle from "../../Filter/SearchTitle"
+import SubTitle from "../../Layout/SubTitle"
 
 export default function ExpensePage() {
     const selectAll = moneyAdapter.getSelectors(
@@ -49,18 +50,21 @@ export default function ExpensePage() {
                         onClick={handleInput}
                     />
                 </InfoGraph>
-                <SearchTitle />
+
                 <List>
-                     <DateList 
-                    onMonthSelect={handleMonthSelect}
-                    activeMonth={visibleMonth}
-                />
-                <MoneyList 
-                    ref={moneyListRef}
-                    onVisibleMonthChange={handleVisibleMonthChange}
-                />
+                    <SearchTitle />
+                    <SubTitle title="Activities" sizeTitle="20px" margin="14px" />
+
+                    <DateList
+                        onMonthSelect={handleMonthSelect}
+                        activeMonth={visibleMonth}
+                    />
+                    <MoneyList
+                        ref={moneyListRef}
+                        onVisibleMonthChange={handleVisibleMonthChange}
+                    />
                 </List>
-               
+
             </Wrapper>
         </>
     )

@@ -4,7 +4,7 @@ import styled from "styled-components"
 import CategoryPresetItem from "./CategoryPresetItem"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store/store"
-import SubTitle from "./SubTitle"
+import SubTitle from "../Layout/SubTitle"
 import { API_ENDPOINTS } from "../../api/api"
 
 export type CategoryType = {

@@ -1,7 +1,7 @@
 import { useEffect, useState, memo } from "react"
 import axios from "axios"
 import styled from "styled-components"
-import SubTitle from "./SubTitle"
+import SubTitle from "../Layout/SubTitle"
 import CategoryIconPlace from "../Placeholders/CategoryIconPlace"
 import { API_ENDPOINTS } from "../../api/api"
 

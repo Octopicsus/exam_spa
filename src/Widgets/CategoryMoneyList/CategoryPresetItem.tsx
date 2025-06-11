@@ -23,7 +23,6 @@ export default function CategoryPresetItem({ title, img, color, onClick }: Props
   )
 }
 
-
 const Desc = styled.h5`
 font-size: 14px;
 font-weight: 300;

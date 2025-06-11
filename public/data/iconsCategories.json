@@ -6,9 +6,21 @@
         "img": "/img/groceries_icon.svg"
     },
     {
-        "img": "/public/img/money_icon.svg"
+        "img": "/img/money_icon.svg"
     },
     {
         "img": "/img/popcorn_icon.svg"
+    },
+    {
+        "img": "/img/Spotify_icon.svg"
+    },
+    {
+        "img": "/img/icon-nvidia.svg"
+    },
+    {
+        "img": "/img/icon-vzp.svg"
+    },
+    {
+        "img": "/img/icon-youtube.svg"
     }
 ]

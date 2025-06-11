@@ -74,6 +74,9 @@ height: 40px;
 width: 100%;
 padding: 0 10px;
 box-sizing: border-box;
+position: sticky;
+top: 20px;
+z-index: 1000;
 `
 
 const List = styled.ul`

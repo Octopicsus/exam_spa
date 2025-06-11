@@ -59,8 +59,11 @@ const BalanceValue = styled.div`
    gap: 10px;
    margin-bottom: 40px;
    margin-top: 80px;
+   color: #f0f0f0;
    `
 
 const Sign = styled.p`
- font-size: 50px; 
+ font-size: 40px; 
+ font-weight: 400;
+ color: #c0c0c0;
 `

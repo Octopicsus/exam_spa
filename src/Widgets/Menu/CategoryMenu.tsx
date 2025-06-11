@@ -38,8 +38,9 @@ export default function Header() {
 
 const HeaderWrapper = styled.header`
   display: flex;
+  justify-content: center;
   width: 30%;
-  justify-content: space-between;
+  gap: 80px;
   margin: 0 auto;
 `
 

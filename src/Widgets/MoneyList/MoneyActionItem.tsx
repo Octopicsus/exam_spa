@@ -104,7 +104,7 @@ const Category = styled.h4<{ $hasDesc?: boolean }>`
 width: 80px;
 text-align: left;
 font-size: ${props => props.$hasDesc ? '12px' : '14px'};
-font-weight: 400;
+font-weight: ${props => props.$hasDesc ? '300' : '700'};
 color: ${props => props.$hasDesc ? '#7b7b7b' : '#c6c6c6'};
 margin-top: 2px;
 `
