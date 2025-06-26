@@ -5,7 +5,6 @@ import CategoryIconPlace from "../Placeholders/CategoryIconPlace"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import getAmountSign from "../../utils/getAmountSign"
-import { useEffect, useState } from "react"
 import { formatAmount } from "../../utils/balanceCalc"
 
 type Props = {
@@ -22,30 +21,7 @@ type Props = {
 
 export default function MoneyActionItem({ title, desc, amount, time, img, color, isFirst, isLast }: Props) {
   const navigate = useNavigate()
-    const currency = useSelector((state: RootState) => state.currency)
   const category = useSelector((state: RootState) => state.category.category)
-    const [currencySign, setCurrencySign] = useState("zł")
-  
-    useEffect(() => {
-      const fetchCurrencySign = async () => {
-        try {
-          const response = await fetch('/data/currency.json')
-          const data = await response.json()
-          const selectedCurrency = data.currencies.find(
-            (curr: any) => curr.code === currency.to
-          )
-          if (selectedCurrency) {
-            setCurrencySign(selectedCurrency.sign)
-          }
-        } catch (error) {
-          console.error(error)
-        }
-      }
-  
-      fetchCurrencySign()
-    }, [currency.to])
-
-  
 
   function handleOpenItem() {
     navigate(LINK_ROUTES.MONEY_ITEM)
@@ -65,7 +41,7 @@ export default function MoneyActionItem({ title, desc, amount, time, img, color,
       </Wrapper>
       <Amount>{getAmountSign(category)} {formatAmount(amount)} 
         <Sign>
-           {currencySign}
+           Kč
         </Sign>
         </Amount>
     </ActionItemButton>

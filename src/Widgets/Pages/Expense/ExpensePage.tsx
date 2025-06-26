@@ -14,6 +14,7 @@ import DateList from "../../Menu/DateList"
 import { useRef, useState } from "react"
 import SearchTitle from "../../Filter/SearchTitle"
 import SubTitle from "../../Layout/SubTitle"
+import HeaderBlock from "../../Menu/Header/HeaderBlock"
 
 export default function ExpensePage() {
     const selectAll = moneyAdapter.getSelectors(
@@ -43,6 +44,7 @@ export default function ExpensePage() {
 
     return (
         <>
+            <HeaderBlock />
             <Wrapper>
                 <SubBalance value={expense} />
                 <InfoGraph>
@@ -53,7 +55,7 @@ export default function ExpensePage() {
 
                 <List>
                     <SearchTitle />
-                    <SubTitle title="Activities" sizeTitle="20px" margin="14px" />
+                    <SubTitle title="Cash Flow" sizeTitle="20px" margin="14px" />
 
                     <DateList
                         onMonthSelect={handleMonthSelect}

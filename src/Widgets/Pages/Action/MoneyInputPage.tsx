@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
 import BackButton from "../../Buttons/BackButton"
-import { RootState } from "../../../store/store"
+import { RootState, AppDispatch } from "../../../store/store"
 import styled from "styled-components"
 import { useState } from "react"
-import { addItem, moneyAdapter, updateItem } from "../../../store/features/moneyHistorySlice"
+import { createTransaction, updateTransaction, moneyAdapter, fetchTransactions } from "../../../store/features/moneyHistorySlice"
 import { getBalance } from "../../../utils/balanceCalc"
 import { useLocation, useNavigate } from "react-router"
 import getCategoryPath from "../../../utils/categoryPath"
@@ -27,9 +27,8 @@ export default function MoneyInputPage() {
   const [date, setDate] = useState(
     editItem && editItem.date ? editItem.date : new Date().toISOString().slice(0, 10)
   )
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const category = useSelector((state: RootState) => state.category.category)
-  const currency = useSelector((state: RootState) => state.currency)
   const selectAll = moneyAdapter.getSelectors(
     (state: RootState) => state.moneyHistory
   ).selectAll
@@ -64,34 +63,42 @@ export default function MoneyInputPage() {
           formattedTime = editItem.time
         }
 
-        dispatch(updateItem({
-          id: editItem.id,
-          type: category,
-          title: actionTitle,
-          description: actionDesc,
-          amount: numAmount,
-          originalAmount: numAmount,
-          originalCurrency: currency.to,
-          date: formattedDate,
-          time: formattedTime,
-          img: img,
-          color: currentColor,
+        dispatch(updateTransaction({
+          transactionId: editItem._id,
+          updateData: {
+            type: category,
+            title: actionTitle,
+            description: actionDesc,
+            amount: numAmount,
+            originalAmount: numAmount,
+            originalCurrency: 'CZK',
+            date: formattedDate,
+            time: formattedTime,
+            img: img,
+            color: currentColor,
+          }
         }))
 
+        // Обновляем список транзакций из API для получения свежих данных
+        dispatch(fetchTransactions())
+
+        // Небольшая задержка перед переходом, чтобы данные успели обновиться
+        setTimeout(() => {
+          navigate(getCategoryPath(category))
+        }, 300)
+
       } else {
-        dispatch(addItem({
-          id: Date.now(),
+        dispatch(createTransaction({
           type: category,
           title: actionTitle,
           description: actionDesc,
           amount: numAmount,
           originalAmount: numAmount,
-          originalCurrency: currency.to,
+          originalCurrency: 'CZK',
           date: formattedDate,
           time: formattedTime,
           img: img,
           color: currentColor,
-
         }))
       }
 

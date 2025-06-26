@@ -1,45 +1,23 @@
 import { useDispatch, useSelector } from "react-redux"
 import BackButton from "../../Buttons/BackButton"
-import { RootState } from "../../../store/store"
-import { deleteItem, moneyAdapter } from "../../../store/features/moneyHistorySlice"
+import { RootState, AppDispatch } from "../../../store/store"
+import { deleteTransaction, moneyAdapter } from "../../../store/features/moneyHistorySlice"
 import { useNavigate } from "react-router"
 import getCategoryPath from "../../../utils/categoryPath"
 import EditButton from "../../Buttons/EditButton"
 import { LINK_ROUTES } from "../../../enums/routes"
 import { formatAmount } from "../../../utils/balanceCalc"
-import { useEffect, useState } from "react"
 
 export default function MoneyItemPage() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const id = useSelector((state: RootState) => state.selectedMoneyItem.id)
-  const currency = useSelector((state: RootState) => state.currency)
-  const [currencySign, setCurrencySign] = useState("zł")
 
   const selectedById = moneyAdapter.getSelectors(
     (state: RootState) => state.moneyHistory
   ).selectById
 
   const item = useSelector((state: RootState) => (id !== null ? selectedById(state, id) : null))
-
-  useEffect(() => {
-    const fetchCurrencySign = async () => {
-      try {
-        const response = await fetch('/data/currency.json')
-        const data = await response.json()
-        const selectedCurrency = data.currencies.find(
-          (curr: any) => curr.code === currency.to
-        )
-        if (selectedCurrency) {
-          setCurrencySign(selectedCurrency.sign)
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchCurrencySign()
-  }, [currency.to])
 
   function formatDate(dateString?: string) {
     if (!dateString) return ""
@@ -52,7 +30,10 @@ export default function MoneyItemPage() {
 
   const handleDelete = () => {
     if (id !== null && item) {
-      dispatch(deleteItem(id))
+      dispatch(deleteTransaction({
+        transactionId: item._id || '',
+        itemId: id
+      }))
       navigate(getCategoryPath(item.type))
     }
   }
@@ -72,14 +53,16 @@ export default function MoneyItemPage() {
       )}
       <div>
         <div>
-          <p>Amount: {formatAmount(item?.amount || 0)} {currencySign}</p>
-          {item?.originalCurrency && item.originalCurrency !== currency.to && (
-            <p>Original: {formatAmount(item.originalAmount || 0)} {item.originalCurrency}</p>
-          )}
+          <p>Amount: {formatAmount(item?.amount || 0)} Kč</p>
         </div>
         <div>
           <p>Type: {item?.type}</p>
         </div>
+        {item?.userEmail && (
+          <div>
+            <p>User: {item.userEmail}</p>
+          </div>
+        )}
         <div>
           <p>Date: {formatDate(item?.date)}</p>
         </div>

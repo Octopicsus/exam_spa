@@ -5,22 +5,24 @@ import selectedMoneyItemReducer from "./features/selectedMoneyActionSlice"
 import customCategoryReducer from "./features/customCategorySlice"
 import searchReducer from "./features/searchSlice"
 import currencyReducer from "./features/currencySlice"
+import authReducer from "./features/authSlice"
+import usersReducer from "./features/usersSlice"
 
-function getMoneyState() {
-  const moneyHistory = localStorage.getItem("moneyHistory")
+function getInitialState() {
   const category = localStorage.getItem("category")
   const customCategory = localStorage.getItem("customCategory")
   const currency = localStorage.getItem("currency")
   return {
-    moneyHistory: moneyHistory ? JSON.parse(moneyHistory) : undefined,
+    // moneyHistory больше не загружается из localStorage
     category: category ? JSON.parse(category) : undefined,
     customCategory: customCategory ? JSON.parse(customCategory) : undefined,
     currency: currency ? JSON.parse(currency) : undefined,
   }
 }
 
-function saveMoneyState(state: RootState) {
-  localStorage.setItem("moneyHistory", JSON.stringify(state.moneyHistory))
+function saveState(state: RootState) {
+  // Сохраняем только некоторые части состояния в localStorage
+  // moneyHistory теперь хранится в MongoDB
   localStorage.setItem("category", JSON.stringify(state.category))
   localStorage.setItem("customCategory", JSON.stringify(state.customCategory))
   localStorage.setItem("currency", JSON.stringify(state.currency))
@@ -34,12 +36,14 @@ export const store = configureStore({
     customCategory: customCategoryReducer,
     search: searchReducer,
     currency: currencyReducer,
+    auth: authReducer,
+    users: usersReducer,
   },
-  preloadedState: getMoneyState()
+  preloadedState: getInitialState()
 })
 
 store.subscribe(() => {
-  saveMoneyState(store.getState())
+  saveState(store.getState())
 })
 
 export type RootState = ReturnType<typeof store.getState>

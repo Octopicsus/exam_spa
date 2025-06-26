@@ -32,6 +32,7 @@ export default function Header() {
             >
                 Income
             </CategoryButton>
+
         </HeaderWrapper>
     )
 }
@@ -39,8 +40,8 @@ export default function Header() {
 const HeaderWrapper = styled.header`
   display: flex;
   justify-content: center;
-  width: 30%;
-  gap: 80px;
+  width: 40%;
+  gap: 40px;
   margin: 0 auto;
 `
 

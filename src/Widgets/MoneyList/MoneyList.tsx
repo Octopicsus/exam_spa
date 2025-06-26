@@ -181,6 +181,7 @@ const MoneyList = forwardRef<any, Props>(({ onVisibleMonthChange }, ref) => {
                     time={moneyAction.time}
                     img={moneyAction.img}
                     color={moneyAction.color}
+                    userEmail={moneyAction.userEmail}
                     isFirst={index === 0}
                     isLast={index === actions.length - 1}
                   />

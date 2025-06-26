@@ -6,8 +6,8 @@ type CurrencyState = {
 }
 
 const initialState: CurrencyState = {
-    from: 'PLN',
-    to: localStorage.getItem('selectedCurrency') || 'PLN'
+    from: 'CZK',
+    to: 'CZK'
 }
 
 export const currencySlice = createSlice({

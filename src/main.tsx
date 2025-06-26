@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { Provider } from 'react-redux'
-import { store } from './store/store'
+import { store } from './store/store.ts'
 import { BrowserRouter } from 'react-router'
 import { createGlobalStyle } from 'styled-components'
 import colors from './ui/colorsPalette.ts'
